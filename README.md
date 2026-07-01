@@ -86,7 +86,7 @@ BrasilnaCopaAI/
 
 ### 1. Clonar o Repositório e Acessar a Pasta
 ```bash
-git clone https://github.com/<seu-usuario>/BrasilnaCopaAI.git
+git clone https://github.com/DanielDPereira/BrasilnaCopaAI.git
 cd BrasilnaCopaAI
 ```
 

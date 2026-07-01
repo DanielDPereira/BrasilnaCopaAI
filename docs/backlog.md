@@ -70,9 +70,9 @@ Responsável pela preparação do ambiente de desenvolvimento e organização in
 - [x] Estruturar rotas da aplicação
 
 ### Feature 1.4 — Frontend
-- [ ] Configurar Streamlit
-- [ ] Criar tela inicial
-- [ ] Validar comunicação com a API
+- [x] Configurar Streamlit
+- [x] Criar tela inicial
+- [x] Validar comunicação com a API
 
 > **✅ Definition of Done (Epic 1)**:
 > - Ambiente virtual e dependências configurados.

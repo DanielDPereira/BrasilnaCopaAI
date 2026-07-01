@@ -57,10 +57,10 @@ Responsável pela preparação do ambiente de desenvolvimento e organização in
 - [x] Definir estrutura inicial das pastas
 
 ### Feature 1.2 — Ambiente Python
-- [ ] Criar ambiente virtual
+- [x] Criar ambiente virtual
 - [x] Criar `requirements.txt`
-- [ ] Instalar dependências iniciais
-- [ ] Configurar variáveis de ambiente
+- [x] Instalar dependências iniciais
+- [x] Configurar variáveis de ambiente
 - [x] Criar arquivo `.env.example`
 
 ### Feature 1.3 — Backend

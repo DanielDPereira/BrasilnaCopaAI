@@ -51,28 +51,28 @@ Responsável pela preparação do ambiente de desenvolvimento e organização in
 
 ### Feature 1.1 — Configuração do Repositório
 - [ ] Criar repositório no GitHub
-- [ ] Configurar licença MIT
-- [ ] Adicionar README inicial
-- [ ] Configurar `.gitignore`
-- [ ] Definir estrutura inicial das pastas
+- [x] Configurar licença MIT
+- [x] Adicionar README inicial
+- [x] Configurar `.gitignore`
+- [x] Definir estrutura inicial das pastas
 
 ### Feature 1.2 — Ambiente Python
-- [ ] Criar ambiente virtual
-- [ ] Criar `requirements.txt`
-- [ ] Instalar dependências iniciais
-- [ ] Configurar variáveis de ambiente
-- [ ] Criar arquivo `.env.example`
+- [x] Criar ambiente virtual
+- [x] Criar `requirements.txt`
+- [x] Instalar dependências iniciais
+- [x] Configurar variáveis de ambiente
+- [x] Criar arquivo `.env.example`
 
 ### Feature 1.3 — Backend
-- [ ] Configurar FastAPI
-- [ ] Criar endpoint de teste (`/health`)
-- [ ] Configurar documentação automática (Swagger)
-- [ ] Estruturar rotas da aplicação
+- [x] Configurar FastAPI
+- [x] Criar endpoint de teste (`/health`)
+- [x] Configurar documentação automática (Swagger)
+- [x] Estruturar rotas da aplicação
 
 ### Feature 1.4 — Frontend
-- [ ] Configurar Streamlit
-- [ ] Criar tela inicial
-- [ ] Validar comunicação com a API
+- [x] Configurar Streamlit
+- [x] Criar tela inicial
+- [x] Validar comunicação com a API
 
 > **✅ Definition of Done (Epic 1)**:
 > - Ambiente virtual e dependências configurados.

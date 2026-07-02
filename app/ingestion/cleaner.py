@@ -18,11 +18,11 @@ class TextCleaner:
     ]
 
     def __init__(self):
-        # Compila a regex para encontrar as secoes indesejadas (linhas com '== Nome da Secao ==')
+        # Compila a regex para encontrar as secoes indesejadas (linhas com '== Nome da Secao ==', '=== Subsecao ===', etc.)
         # Captura a secao e tudo o que vier depois dela ate o fim do texto
         sections_pattern = "|".join(self.BLACKLISTED_SECTIONS)
         self.blacklist_regex = re.compile(
-            rf"\n==\s*({sections_pattern})\s*==.*", 
+            rf"\n={{2,4}}\s*[^=]*({sections_pattern})[^=]*={{2,4}}.*", 
             re.IGNORECASE | re.DOTALL
         )
 

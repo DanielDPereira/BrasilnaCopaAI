@@ -85,21 +85,21 @@ Responsável pela preparação do ambiente de desenvolvimento e organização in
 Responsável pela criação da base documental a partir da Wikipedia.
 
 ### Feature 2.1 — Coleta dos Dados
-- [ ] Estudar Wikipedia API
-- [ ] Selecionar páginas relevantes para o escopo da Copa 2026 e Seleção Brasileira
-- [ ] Implementar script de coleta automática
-- [ ] Salvar documentos brutos na pasta `data/raw/`
+- [x] Estudar Wikipedia API
+- [x] Selecionar páginas relevantes para o escopo da Copa 2026 e Seleção Brasileira
+- [x] Implementar script de coleta automática
+- [x] Salvar documentos brutos na pasta `data/raw/`
 
 ### Feature 2.2 — Limpeza dos Dados
-- [ ] Remover marcações HTML e ruídos
-- [ ] Remover seções e conteúdos irrelevantes
-- [ ] Corrigir problemas de codificação e caracteres especiais
-- [ ] Padronizar a formatação dos textos
+- [x] Remover marcações HTML e ruídos
+- [x] Remover seções e conteúdos irrelevantes
+- [x] Corrigir problemas de codificação e caracteres especiais
+- [x] Padronizar a formatação dos textos
 
 ### Feature 2.3 — Estruturação
-- [ ] Definir formato final para os documentos de conhecimento
-- [ ] Criar metadados úteis para filtragem futura
-- [ ] Salvar documentos processados na pasta `data/processed/`
+- [x] Definir formato final para os documentos de conhecimento
+- [x] Criar metadados úteis para filtragem futura
+- [x] Salvar documentos processados na pasta `data/processed/`
 
 > **✅ Definition of Done (Epic 2)**:
 > - Base documental bruta e processada criada localmente.

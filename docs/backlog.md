@@ -142,9 +142,9 @@ Responsável pela inteligência de busca e orquestração do fluxo de dados com 
 - [x] Testar a qualidade dos chunks retornados para perguntas de teste
 
 ### Feature 4.2 — Prompt
-- [ ] Criar System Prompt limitando o modelo a responder estritamente com base nos documentos
-- [ ] Definir instruções de comportamento do chatbot (ex: tom de voz, o que fazer quando não souber a resposta)
-- [ ] Configurar tratamento de exceção (evitar alucinação)
+- [x] Criar System Prompt limitando o modelo a responder estritamente com base nos documentos
+- [x] Definir instruções de comportamento do chatbot (ex: tom de voz, o que fazer quando não souber a resposta)
+- [x] Configurar tratamento de exceção (evitar alucinação)
 
 ### Feature 4.3 — Cadeia RAG
 - [ ] Configurar a cadeia (chain) integrando o retriever e o template de prompt

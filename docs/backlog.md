@@ -147,8 +147,8 @@ Responsável pela inteligência de busca e orquestração do fluxo de dados com 
 - [x] Configurar tratamento de exceção (evitar alucinação)
 
 ### Feature 4.3 — Cadeia RAG
-- [ ] Configurar a cadeia (chain) integrando o retriever e o template de prompt
-- [ ] Orquestrar o fluxo de dados do input do usuário à geração do prompt final
+- [x] Configurar a cadeia (chain) integrando o retriever e o template de prompt
+- [x] Orquestrar o fluxo de dados do input do usuário à geração do prompt final
 
 > **✅ Definition of Done (Epic 4)**:
 > - Mecanismo de busca e formatação do prompt operacionais.

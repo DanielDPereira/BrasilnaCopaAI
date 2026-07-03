@@ -111,20 +111,20 @@ Responsável pela criação da base documental a partir da Wikipedia.
 Responsável pela preparação e armazenamento dos documentos na base vetorial.
 
 ### Feature 3.1 — Chunking
-- [ ] Estudar estratégias de chunking (ex: RecursiveCharacterTextSplitter)
-- [ ] Definir tamanho ideal de chunk e overlap apropriado
-- [ ] Implementar a divisão do texto em chunks estruturados
+- [x] Estudar estratégias de chunking (ex: RecursiveCharacterTextSplitter)
+- [x] Definir tamanho ideal de chunk e overlap apropriado
+- [x] Implementar a divisão do texto em chunks estruturados
 
 ### Feature 3.2 — Embeddings
-- [ ] Escolher modelo de embeddings adequado para o idioma português
-- [ ] Implementar geração de embeddings para os chunks
-- [ ] Validar qualidade de conversão dos embeddings
+- [x] Escolher modelo de embeddings adequado para o idioma português
+- [x] Implementar geração de embeddings para os chunks
+- [x] Validar qualidade de conversão dos embeddings
 
 ### Feature 3.3 — Banco Vetorial
-- [ ] Configurar e instanciar o ChromaDB local
-- [ ] Criar coleção persistente para o projeto
-- [ ] Inserir os chunks de documentos com seus respectivos embeddings
-- [ ] Implementar e validar consultas básicas por similaridade cosseno
+- [x] Configurar e instanciar o ChromaDB local
+- [x] Criar coleção persistente para o projeto
+- [x] Inserir os chunks de documentos com seus respectivos embeddings
+- [x] Implementar e validar consultas básicas por similaridade cosseno
 
 > **✅ Definition of Done (Epic 3)**:
 > - Divisão do texto em chunks com overlap validado.

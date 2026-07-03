@@ -20,7 +20,7 @@ A lógica do pipeline foi estruturada sob o pacote `app/rag/` nas seguintes part
 
 ### 2. Instruções do Sistema e Engenharia de Prompt (`prompts.py`)
 * **System Prompt Restritivo**: Definimos diretrizes rígidas instruindo o assistente a responder *única e exclusivamente* com base no contexto fornecido.
-* **Instrução de Fallback Seguro**: Caso a informação não esteja no contexto recuperado, o modelo é obrigado a responder de forma literal: *"Não possuo essa informação em minha base de dados sobre a Copa do Mundo 2026."* (evitando alucinação).
+* **Instrução de Fallback Seguro**: Caso a informação não esteja no contexto recuperado, o modelo é obrigado a responder de forma literal: *"Não possuo essa informação em minha base de dados sobre a Seleção Brasileira nas Copas do Mundo."* (evitando alucinação).
 * **Formatador de Prompt**: Função `get_prompt_template()` que cria o `ChatPromptTemplate` contendo a mensagem do sistema e do usuário.
 
 ### 3. Orquestração da Cadeia LCEL (`pipeline.py`)

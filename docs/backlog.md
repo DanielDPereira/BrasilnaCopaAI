@@ -86,7 +86,7 @@ Responsável pela criação da base documental a partir da Wikipedia.
 
 ### Feature 2.1 — Coleta dos Dados
 - [x] Estudar Wikipedia API
-- [x] Selecionar páginas relevantes para o escopo da Copa 2026 e Seleção Brasileira
+- [x] Selecionar páginas relevantes para o escopo da Seleção Brasileira nas Copas do Mundo
 - [x] Implementar script de coleta automática
 - [x] Salvar documentos brutos na pasta `data/raw/`
 

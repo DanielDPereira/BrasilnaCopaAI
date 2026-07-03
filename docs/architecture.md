@@ -117,7 +117,7 @@ Componente core desenvolvido em Python utilizando **LangChain** que orquestra:
 
 # 📦 Base de Conhecimento
 
-A base de dados de conhecimento é construída com foco no escopo da Copa do Mundo FIFA de 2026. A coleta abrange artigos como:
+A base de dados de conhecimento é construída com foco no escopo da Seleção Brasileira nas Copas do Mundo FIFA. A coleta abrange artigos como:
 - **Copa do Mundo FIFA de 2026** (Artigo Geral).
 - **Seleção Brasileira de Futebol** (História e Elenco).
 - Detalhes de eliminatórias, grupos da competição, estatísticas e comissões técnicas oficiais.
@@ -138,7 +138,7 @@ Para evitar alucinações e respostas incorretas, utilizamos busca semântica em
 ### Prompt de Instrução do Sistema (System Prompt)
 O modelo de linguagem recebe instruções rígidas de comportamento:
 - Responder **apenas** utilizando as informações fornecidas nos documentos de contexto.
-- Se o contexto não contiver informações suficientes, o modelo deve responder expressamente: *"Não possuo essa informação em minha base de dados sobre a Copa do Mundo 2026."*
+- Se o contexto não contiver informações suficientes, o modelo deve responder expressamente: *"Não possuo essa informação em minha base de dados sobre a Seleção Brasileira nas Copas do Mundo."*
 - Proibido inventar fatos ou utilizar conhecimentos externos que divirjam do contexto.
 - O idioma de resposta será exclusivamente português do Brasil.
 

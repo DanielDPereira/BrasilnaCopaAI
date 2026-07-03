@@ -1,4 +1,5 @@
 # Pacote de orquestracao RAG (LangChain) do BrasilnaCopaAI
 from app.rag.retriever import get_retriever
+from app.rag.prompts import SYSTEM_PROMPT, get_prompt_template
 
-__all__ = ["get_retriever"]
+__all__ = ["get_retriever", "SYSTEM_PROMPT", "get_prompt_template"]

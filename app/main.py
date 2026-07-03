@@ -35,11 +35,20 @@ class HealthCheckResponse(BaseModel):
     description="Retorna o status atual de funcionamento do backend e suas conexões básicas.",
 )
 async def health_check():
+    db_status = "not_connected"
+    try:
+        from app.vectorstore.database import get_vectorstore
+        db = get_vectorstore()
+        count = db._collection.count()
+        db_status = f"connected ({count} chunks)"
+    except Exception as e:
+        db_status = f"error: {str(e)}"
+
     return HealthCheckResponse(
         status="healthy",
         timestamp=datetime.datetime.utcnow(),
         version="0.1.0",
-        database="not_connected",  # Será atualizado após configuração do ChromaDB
+        database=db_status,
     )
 
 if __name__ == "__main__":

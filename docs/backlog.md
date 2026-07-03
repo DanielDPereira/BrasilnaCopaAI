@@ -136,10 +136,10 @@ Responsável pela preparação e armazenamento dos documentos na base vetorial.
 Responsável pela inteligência de busca e orquestração do fluxo de dados com LangChain.
 
 ### Feature 4.1 — Retriever
-- [ ] Configurar a integração do ChromaDB com LangChain
-- [ ] Criar componente de recuperação (retriever)
-- [ ] Configurar número de documentos recuperados (Top-K) e limiar de similaridade
-- [ ] Testar a qualidade dos chunks retornados para perguntas de teste
+- [x] Configurar a integração do ChromaDB com LangChain
+- [x] Criar componente de recuperação (retriever)
+- [x] Configurar número de documentos recuperados (Top-K) e limiar de similaridade
+- [x] Testar a qualidade dos chunks retornados para perguntas de teste
 
 ### Feature 4.2 — Prompt
 - [ ] Criar System Prompt limitando o modelo a responder estritamente com base nos documentos

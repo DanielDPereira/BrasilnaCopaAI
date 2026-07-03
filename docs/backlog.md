@@ -86,7 +86,7 @@ Responsável pela criação da base documental a partir da Wikipedia.
 
 ### Feature 2.1 — Coleta dos Dados
 - [x] Estudar Wikipedia API
-- [x] Selecionar páginas relevantes para o escopo da Copa 2026 e Seleção Brasileira
+- [x] Selecionar páginas relevantes para o escopo da Seleção Brasileira nas Copas do Mundo
 - [x] Implementar script de coleta automática
 - [x] Salvar documentos brutos na pasta `data/raw/`
 
@@ -136,19 +136,19 @@ Responsável pela preparação e armazenamento dos documentos na base vetorial.
 Responsável pela inteligência de busca e orquestração do fluxo de dados com LangChain.
 
 ### Feature 4.1 — Retriever
-- [ ] Configurar a integração do ChromaDB com LangChain
-- [ ] Criar componente de recuperação (retriever)
-- [ ] Configurar número de documentos recuperados (Top-K) e limiar de similaridade
-- [ ] Testar a qualidade dos chunks retornados para perguntas de teste
+- [x] Configurar a integração do ChromaDB com LangChain
+- [x] Criar componente de recuperação (retriever)
+- [x] Configurar número de documentos recuperados (Top-K) e limiar de similaridade
+- [x] Testar a qualidade dos chunks retornados para perguntas de teste
 
 ### Feature 4.2 — Prompt
-- [ ] Criar System Prompt limitando o modelo a responder estritamente com base nos documentos
-- [ ] Definir instruções de comportamento do chatbot (ex: tom de voz, o que fazer quando não souber a resposta)
-- [ ] Configurar tratamento de exceção (evitar alucinação)
+- [x] Criar System Prompt limitando o modelo a responder estritamente com base nos documentos
+- [x] Definir instruções de comportamento do chatbot (ex: tom de voz, o que fazer quando não souber a resposta)
+- [x] Configurar tratamento de exceção (evitar alucinação)
 
 ### Feature 4.3 — Cadeia RAG
-- [ ] Configurar a cadeia (chain) integrando o retriever e o template de prompt
-- [ ] Orquestrar o fluxo de dados do input do usuário à geração do prompt final
+- [x] Configurar a cadeia (chain) integrando o retriever e o template de prompt
+- [x] Orquestrar o fluxo de dados do input do usuário à geração do prompt final
 
 > **✅ Definition of Done (Epic 4)**:
 > - Mecanismo de busca e formatação do prompt operacionais.

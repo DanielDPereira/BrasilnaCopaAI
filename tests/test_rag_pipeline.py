@@ -26,9 +26,10 @@ def test_format_docs():
     assert "A Copa de 2026 será na América do Norte." in formatted
 
 @patch("app.rag.pipeline.get_retriever")
-def test_rag_pipeline_chain_mock(mock_get_retriever):
-    # Mock do retriever para retornar documentos fictícios sem acessar o banco real
-    # Usamos RunnableLambda para suportar o operador de composição | do LCEL
+@patch("app.rag.pipeline.get_llm")
+def test_rag_pipeline_chain_mock(mock_get_llm, mock_get_retriever):
+    # Mock do retriever e do LLM para evitar dependências externas
+    mock_get_llm.return_value = MagicMock()
     mock_retriever = RunnableLambda(lambda x: [
         Document(
             page_content="Pelé jogou na Copa de 1958.",
@@ -53,6 +54,28 @@ def test_rag_pipeline_chain_mock(mock_get_retriever):
     # Verifica a pergunta do usuário
     human_msg = messages[1].content
     assert human_msg == "Quem foi Pelé?"
+
+@patch("app.rag.pipeline.get_retriever")
+@patch("app.rag.pipeline.get_llm")
+def test_rag_pipeline_ask_mock(mock_get_llm, mock_get_retriever):
+    # Mock do retriever
+    mock_retriever = RunnableLambda(lambda x: [
+        Document(
+            page_content="O Brasil é pentacampeão.",
+            metadata={"title": "Títulos", "url": "https://example.com/titulos"}
+        )
+    ])
+    mock_get_retriever.return_value = mock_retriever
+    
+    # Mock do LLM retornar objeto compatível (ex: AIMessage)
+    from langchain_core.messages import AIMessage
+    mock_llm = RunnableLambda(lambda x: AIMessage(content="O Brasil possui 5 títulos da Copa do Mundo."))
+    mock_get_llm.return_value = mock_llm
+    
+    pipeline = RAGPipeline(k=1)
+    response = pipeline.ask("Quantos títulos o Brasil tem?")
+    
+    assert response == "O Brasil possui 5 títulos da Copa do Mundo."
 
 @pytest.mark.integration
 def test_rag_pipeline_real_db_search():
@@ -79,3 +102,20 @@ def test_rag_pipeline_real_db_search():
             assert "Fonte:" in sys_msg
     except Exception as e:
         pytest.fail(f"Falha de integração com o ChromaDB real: {str(e)}")
+
+@pytest.mark.integration
+def test_rag_pipeline_real_ask():
+    # Executa uma pergunta real apenas se houver chave de API configurada no ambiente
+    import os
+    if not os.getenv("GEMINI_API_KEY") and not os.getenv("GEMINI_API_KEYS"):
+        pytest.skip("Chave de API do Gemini não configurada para teste de integração real.")
+        
+    try:
+        pipeline = RAGPipeline(k=1)
+        # Pergunta sobre algo que está nos documentos, ex: sedes da Copa 2026 ou Seleção
+        response = pipeline.ask("Quais países vão sediar a Copa do Mundo de 2026?")
+        
+        assert len(response) > 0
+        assert "Não possuo essa informação" not in response  # Deve encontrar pois está no banco!
+    except Exception as e:
+        pytest.fail(f"Falha na integração real com Gemini: {str(e)}")

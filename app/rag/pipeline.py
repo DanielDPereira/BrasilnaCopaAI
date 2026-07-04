@@ -1,14 +1,16 @@
 from typing import List
 from langchain_core.documents import Document
 from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 from app.rag.retriever import get_retriever
 from app.rag.prompts import get_prompt_template
+from app.rag.llm import get_llm
 
 class RAGPipeline:
     """
     Orquestrador RAG (Retrieval-Augmented Generation) do BrasilnaCopaAI.
     Responsável por gerenciar a busca semântica no banco vetorial local (ChromaDB)
-    e estruturar o prompt enriquecido com contexto para a LLM.
+    e estruturar a cadeia que se conecta ao Google Gemini para obter respostas.
     """
     def __init__(self, k: int = 4):
         """
@@ -19,12 +21,13 @@ class RAGPipeline:
         """
         self.retriever = get_retriever(k=k)
         self.prompt_template = get_prompt_template()
+        self.llm = get_llm()
+        self.prompt_chain = self._build_prompt_chain()
         self.chain = self._build_chain()
 
-    def _build_chain(self):
+    def _build_prompt_chain(self):
         """
-        Monta a cadeia do LangChain usando LCEL para mapeamento do contexto e input
-        até a geração do prompt final.
+        Monta a cadeia LCEL até a geração do prompt formatado com contexto.
         """
         return (
             {
@@ -33,6 +36,12 @@ class RAGPipeline:
             }
             | self.prompt_template
         )
+
+    def _build_chain(self):
+        """
+        Monta a cadeia RAG final de ponta a ponta (Prompt -> LLM -> Parser).
+        """
+        return self.prompt_chain | self.llm | StrOutputParser()
 
     @staticmethod
     def format_docs(docs: List[Document]) -> str:
@@ -74,13 +83,26 @@ class RAGPipeline:
 
     def generate_prompt(self, query: str):
         """
-        Executa a cadeia RAG de ponta a ponta gerando as mensagens (System + Human)
-        com o prompt final pronto para ser enviado à LLM.
+        Executa a cadeia RAG gerando as mensagens (System + Human)
+        com o prompt final contendo as diretrizes e o contexto.
         
         Args:
             query: Pergunta do usuário.
             
         Returns:
             ChatPromptValue contendo as mensagens formatadas.
+        """
+        return self.prompt_chain.invoke(query)
+
+    def ask(self, query: str) -> str:
+        """
+        Executa a cadeia RAG de ponta a ponta, enviando o prompt ao Gemini
+        e retornando a resposta final em formato textual (string).
+        
+        Args:
+            query: Pergunta do usuário.
+            
+        Returns:
+            Resposta textual gerada pela LLM.
         """
         return self.chain.invoke(query)

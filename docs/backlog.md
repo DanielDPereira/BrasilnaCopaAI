@@ -160,18 +160,18 @@ Responsável pela inteligência de busca e orquestração do fluxo de dados com 
 Responsável pela conexão com a LLM do Google Gemini para resposta final.
 
 ### Feature 5.1 — API
-- [ ] Configurar a autenticação e carregamento da chave de API (`GEMINI_API_KEY`)
-- [ ] Instanciar o cliente e escolher a versão ideal do modelo (ex: Gemini Pro / Flash)
+- [x] Configurar a autenticação e carregamento da chave de API (`GEMINI_API_KEY`)
+- [x] Instanciar o cliente e escolher a versão ideal do modelo (ex: Gemini Pro / Flash)
 
 ### Feature 5.2 — Geração de Respostas
-- [ ] Enviar o prompt enriquecido com contexto + pergunta à API
-- [ ] Tratar respostas vazias, truncadas ou falhas na API do Gemini
-- [ ] Otimizar os hiperparâmetros de geração (temperatura, top-p)
+- [x] Enviar o prompt enriquecido com contexto + pergunta à API
+- [x] Tratar respostas vazias, truncadas ou falhas na API do Gemini
+- [x] Otimizar os hiperparâmetros de geração (temperatura, top-p)
 
 ### Feature 5.3 — Integração
-- [ ] Conectar o Gemini na cadeia final do LangChain
-- [ ] Validar respostas completas para variados tipos de perguntas
-- [ ] Garantir que o modelo informa quando o contexto não possui a resposta
+- [x] Conectar o Gemini na cadeia final do LangChain
+- [x] Validar respostas completas para variados tipos de perguntas
+- [x] Garantir que o modelo informa quando o contexto não possui a resposta
 
 > **✅ Definition of Done (Epic 5)**:
 > - Respostas geradas de forma dinâmica utilizando a API oficial do Gemini.

@@ -12,13 +12,13 @@ class FallbackChatGemini(Runnable):
     Classe wrapper para ChatGoogleGenerativeAI que adiciona suporte a fallback/rotação de chaves
     de API e retentativas automáticas com backoff exponencial.
     """
-    def __init__(self, key_manager: GeminiAPIKeyManager, model: str = "gemini-1.5-flash", **kwargs):
+    def __init__(self, key_manager: GeminiAPIKeyManager, model: str = "gemini-2.5-flash", **kwargs):
         """
         Inicializa o chat wrapper.
         
         Args:
             key_manager: Gerenciador de chaves de API.
-            model: Nome do modelo de linguagem (LLM) do Gemini. Padrão: gemini-1.5-flash.
+            model: Nome do modelo de linguagem (LLM) do Gemini. Padrão: gemini-2.5-flash.
             kwargs: Argumentos extras passados para a instanciação do ChatGoogleGenerativeAI (ex: temperature).
         """
         self.key_manager = key_manager
@@ -90,7 +90,7 @@ class FallbackChatGemini(Runnable):
             
         raise last_error
 
-def get_llm(temperature: float = 0.0, model: str = "gemini-1.5-flash") -> FallbackChatGemini:
+def get_llm(temperature: float = 0.0, model: str = "gemini-2.5-flash") -> FallbackChatGemini:
     """
     Retorna a instância da LLM resiliente pré-configurada.
     """

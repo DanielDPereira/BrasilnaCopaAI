@@ -12,7 +12,7 @@ Nesta etapa, expusemos a funcionalidade de chat com busca e respostas baseadas e
 
 ## 🛠️ Como foi feito
 
-A lógica do servidor API foi concentrada no arquivo [main.py](file:///c:/Users/Daniel/Documents/.Projetos/BrasilnaCopaAI/app/main.py) e estruturada da seguinte forma:
+A lógica do servidor API foi concentrada no arquivo [main.py](../app/main.py) e estruturada da seguinte forma:
 
 ### 1. Esquemas de Dados Pydantic
 * **`ChatRequest`**:
@@ -56,7 +56,9 @@ pytest tests/test_api.py
 
 ### 2. Rodar a API localmente
 ```bash
-python app/main.py
+python -m app.main
+# ou
+uvicorn app.main:app --reload
 ```
 A API iniciará no endereço `http://127.0.0.1:8000`. Você pode testar os endpoints de duas maneiras:
 * **Interativo (Swagger UI)**: Acesse [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) e use a aba "Try it out" na rota `/chat`.

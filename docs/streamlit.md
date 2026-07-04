@@ -12,7 +12,7 @@ Nesta etapa, implementamos a interface visual (UI/UX) do chatbot utilizando o **
 
 ## 🛠️ Como foi feito
 
-A interface visual foi concentrada no arquivo [app.py](file:///c:/Users/Daniel/Documents/.Projetos/BrasilnaCopaAI/streamlit/app.py) e estruturada nas seguintes áreas:
+A interface visual foi concentrada no arquivo [app.py](../streamlit/app.py) e estruturada nas seguintes áreas:
 
 ### 1. Configurações na Barra Lateral (Sidebar)
 * **Slider de Top-K**: Controle dinâmico permitindo ao usuário selecionar de 1 a 10 chunks para a recuperação semântica no ChromaDB.
@@ -46,7 +46,9 @@ Para rodar a interface web, certifique-se de que o backend FastAPI está rodando
 
 ### 1. Rodar o Backend API (FastAPI)
 ```bash
-python app/main.py
+python -m app.main
+# ou
+uvicorn app.main:app --reload
 ```
 
 ### 2. Rodar o Frontend Web (Streamlit)

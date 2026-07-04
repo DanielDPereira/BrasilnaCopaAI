@@ -183,19 +183,19 @@ Responsável pela conexão com a LLM do Google Gemini para resposta final.
 Responsável por expor a inteligência do RAG como uma API web utilizável.
 
 ### Feature 6.1 — Endpoints
-- [ ] Implementar endpoint `/health` para verificação de status
-- [ ] Implementar endpoint principal `/chat` para receber perguntas e retornar respostas com contexto
-- [ ] Implementar endpoint para status da base de conhecimento (opcional)
+- [x] Implementar endpoint `/health` para verificação de status
+- [x] Implementar endpoint principal `/chat` para receber perguntas e retornar respostas com contexto
+- [x] Implementar endpoint para status da base de conhecimento (opcional)
 
 ### Feature 6.2 — Modelos
-- [ ] Definir esquemas de entrada (Request Models) com Pydantic
-- [ ] Definir esquemas de saída (Response Models) contendo a resposta e fontes utilizadas
-- [ ] Adicionar validações de dados nas requisições
+- [x] Definir esquemas de entrada (Request Models) com Pydantic
+- [x] Definir esquemas de saída (Response Models) contendo a resposta e fontes utilizadas
+- [x] Adicionar validações de dados nas requisições
 
 ### Feature 6.3 — Tratamento de Erros
-- [ ] Criar middleware ou handlers para capturar exceções globais
-- [ ] Configurar logs estruturados do sistema
-- [ ] Padronizar mensagens de erro retornadas para o cliente
+- [x] Criar middleware ou handlers para capturar exceções globais
+- [x] Configurar logs estruturados do sistema
+- [x] Padronizar mensagens de erro retornadas para o cliente
 
 > **✅ Definition of Done (Epic 6)**:
 > - API backend documentada nativamente via Swagger (`/docs`).

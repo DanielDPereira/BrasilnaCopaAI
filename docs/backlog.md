@@ -169,9 +169,9 @@ Responsável pela conexão com a LLM do Google Gemini para resposta final.
 - [x] Otimizar os hiperparâmetros de geração (temperatura, top-p)
 
 ### Feature 5.3 — Integração
-- [ ] Conectar o Gemini na cadeia final do LangChain
-- [ ] Validar respostas completas para variados tipos de perguntas
-- [ ] Garantir que o modelo informa quando o contexto não possui a resposta
+- [x] Conectar o Gemini na cadeia final do LangChain
+- [x] Validar respostas completas para variados tipos de perguntas
+- [x] Garantir que o modelo informa quando o contexto não possui a resposta
 
 > **✅ Definition of Done (Epic 5)**:
 > - Respostas geradas de forma dinâmica utilizando a API oficial do Gemini.

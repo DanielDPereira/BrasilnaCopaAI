@@ -207,18 +207,18 @@ Responsável por expor a inteligência do RAG como uma API web utilizável.
 Responsável por criar a experiência visual de chat para o usuário.
 
 ### Feature 7.1 — Interface
-- [ ] Projetar layout visual responsivo e amigável (cabeçalho, barra lateral)
-- [ ] Adicionar área de entrada de texto e controles básicos
+- [x] Projetar layout visual responsivo e amigável (cabeçalho, barra lateral)
+- [x] Adicionar área de entrada de texto e controles básicos
 
 ### Feature 7.2 — Chat
-- [ ] Implementar histórico de conversas em memória (session state)
-- [ ] Exibir mensagens com estilo diferenciado de Usuário vs. Assistente
-- [ ] Adicionar indicadores visuais de carregamento enquanto aguarda a API
+- [x] Implementar histórico de conversas em memória (session state)
+- [x] Exibir mensagens com estilo diferenciado de Usuário vs. Assistente
+- [x] Adicionar indicadores visuais de carregamento enquanto aguarda a API
 
 ### Feature 7.3 — Integração
-- [ ] Criar cliente HTTP para consumir os endpoints do backend FastAPI
-- [ ] Tratar falhas de conexão com o backend graciosamente na interface do usuário
-- [ ] Exibir as fontes dos documentos utilizados na resposta
+- [x] Criar cliente HTTP para consumir os endpoints do backend FastAPI
+- [x] Tratar falhas de conexão com o backend graciosamente na interface do usuário
+- [x] Exibir as fontes dos documentos utilizados na resposta
 
 > **✅ Definition of Done (Epic 7)**:
 > - Interface web do chat funcional e estilizada.

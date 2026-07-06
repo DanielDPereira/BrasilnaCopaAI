@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional
 import wikipediaapi
 
@@ -64,7 +64,7 @@ class WikipediaCollector:
                 "url": page.fullurl,
                 "text": page.text,
                 "summary": page.summary,
-                "fetched_at": datetime.utcnow().isoformat()
+                "fetched_at": datetime.now(timezone.utc).isoformat()
             }
             
             # Salva o arquivo JSON

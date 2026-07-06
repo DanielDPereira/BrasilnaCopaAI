@@ -66,7 +66,7 @@ async def health_check():
 
     return HealthCheckResponse(
         status="healthy",
-        timestamp=datetime.datetime.utcnow(),
+        timestamp=datetime.datetime.now(datetime.timezone.utc),
         version="0.1.0",
         database=db_status,
     )

@@ -11,7 +11,30 @@ DEFAULT_PAGES = [
     "História da Seleção Brasileira de Futebol",
     "Títulos da Seleção Brasileira de Futebol",
     "Brasil na Copa do Mundo FIFA",
-    "Copa do Mundo FIFA de 2026"  # Adicionado por ser o escopo principal do RAG
+    "Copa do Mundo FIFA de 2026",
+    "Brasil na Copa do Mundo FIFA de 1930",
+    "Brasil na Copa do Mundo FIFA de 1934",
+    "Brasil na Copa do Mundo FIFA de 1938",
+    "Brasil na Copa do Mundo FIFA de 1950",
+    "Brasil na Copa do Mundo FIFA de 1954",
+    "Brasil na Copa do Mundo FIFA de 1958",
+    "Brasil na Copa do Mundo FIFA de 1962",
+    "Brasil na Copa do Mundo FIFA de 1966",
+    "Brasil na Copa do Mundo FIFA de 1970",
+    "Brasil na Copa do Mundo FIFA de 1974",
+    "Brasil na Copa do Mundo FIFA de 1978",
+    "Brasil na Copa do Mundo FIFA de 1982",
+    "Brasil na Copa do Mundo FIFA de 1986",
+    "Brasil na Copa do Mundo FIFA de 1990",
+    "Brasil na Copa do Mundo FIFA de 1994",
+    "Brasil na Copa do Mundo FIFA de 1998",
+    "Brasil na Copa do Mundo FIFA de 2002",
+    "Brasil na Copa do Mundo FIFA de 2006",
+    "Brasil na Copa do Mundo FIFA de 2010",
+    "Brasil na Copa do Mundo FIFA de 2014",
+    "Brasil na Copa do Mundo FIFA de 2018",
+    "Brasil na Copa do Mundo FIFA de 2022",
+    "Brasil na Copa do Mundo FIFA de 2026"
 ]
 
 def main():

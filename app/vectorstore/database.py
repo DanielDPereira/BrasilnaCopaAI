@@ -38,7 +38,8 @@ class GeminiAPIKeyManager:
             if not self._api_keys:
                 single_key = os.getenv("GEMINI_API_KEY")
                 if single_key:
-                    self._api_keys = [single_key.strip()]
+                    # Permite que a chave GEMINI_API_KEY também seja informada como lista separada por vírgula
+                    self._api_keys = [k.strip() for k in single_key.split(",") if k.strip()]
                     
         self._current_index = 0
         if not self._api_keys:

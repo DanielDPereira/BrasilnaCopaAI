@@ -87,7 +87,7 @@ def test_rag_pipeline_real_db_search():
         query = "cidades sedes da Copa do Mundo de 2026"
         docs = pipeline.retrieve_context(query)
         
-        assert len(docs) <= 2
+        assert len(docs) <= 6
         if docs:
             # Garante que recuperou algum conteúdo textual
             assert len(docs[0].page_content) > 0

@@ -40,7 +40,21 @@ DEFAULT_PAGES = [
     "Garrincha",
     "Ronaldo Nazário",
     "Romário",
-    "Zagallo"
+    "Zagallo",
+    "Neymar",
+    "Zico",
+    "Rivaldo",
+    "Cafu",
+    "Ronaldinho Gaúcho",
+    "Jairzinho",
+    "Bebeto",
+    "Roberto Carlos",
+    "Kaká",
+    # Treinadores Históricos e Partidas Notórias
+    "Carlos Alberto Parreira",
+    "Luiz Felipe Scolari",
+    "Maracanaço",
+    "Mineiraço"
 ]
 
 def main():

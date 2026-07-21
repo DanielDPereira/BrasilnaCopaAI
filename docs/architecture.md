@@ -80,11 +80,16 @@ Antes de disponibilizar o chatbot, é necessário coletar e organizar os dados n
 
 # 🔎 Fluxo de Consulta (RAG)
 
-Quando a pergunta chega ao backend, a busca semântica e a geração de resposta ocorrem da seguinte forma:
+Quando a pergunta chega ao backend, ela passa por uma etapa de **Query Expansion** (expansão de consultas) para assegurar o maior índice de cobertura (recall) semântica. O fluxo de orquestração detalhado do pipeline é ilustrado a seguir:
 
 ```text
-[Pergunta] ──> [Embedding da Pergunta] ──> [Busca Semântica] ──> [Recuperação Chunks] ──> [Prompt Contexto] ──> [Gemini] ──> [Resposta]
+                                              ┌───> [Busca Vetorial (Variação 1)] ──┐
+                                              ├───> [Busca Vetorial (Variação 2)] ──┼─> [Unificar & Desduplicar] ──> [Prompt Contexto] ──> [Gemini] ──> [Resposta]
+[Pergunta] ──> [Query Expansion via LLM] ────┼───> [Busca Vetorial (Variação 3)] ──┤
+                                              └───> [Busca Vetorial (Original)] ───┘
 ```
+
+Os embeddings de busca são gerados localmente utilizando um modelo ONNX em CPU (ou via chamadas ao Gemini, de acordo com as configurações do `.env`).
 
 ---
 
@@ -93,11 +98,12 @@ Quando a pergunta chega ao backend, a busca semântica e a geração de resposta
 ### FastAPI (Backend)
 Responsável por conter e aplicar as regras de negócio da aplicação. Suas obrigações incluem:
 - Receber e validar as requisições HTTP (pergunta do usuário).
-- Gerar o vetor da pergunta do usuário.
+- Executar a expansão de consultas em 3 perguntas alternativas para cobrir tópicos relacionados.
+- Converter as consultas em vetores de alta dimensionalidade (utilizando embeddings locais ONNX ou rotacionando chaves na API do Gemini).
 - Consultar a base vetorial local do ChromaDB.
-- Extrair os trechos de texto mais semelhantes.
+- Extrair, unificar e desduplicar os trechos de texto mais semelhantes.
 - Injetar os trechos de contexto dentro do prompt.
-- Fazer a chamada à API do Gemini e retornar o payload estruturado.
+- Fazer a chamada à API do Gemini e retornar o payload estruturado de resposta.
 
 ### Streamlit (Presentation Layer)
 - Renderizar a interface gráfica e o fluxo de mensagens estilo chat.
@@ -105,13 +111,14 @@ Responsável por conter e aplicar as regras de negócio da aplicação. Suas obr
 - Não possui lógica de IA, conexões com banco vetorial ou chaves de API carregadas.
 
 ### Pipeline de Ingestão
-Script utilitário executado sob demanda para atualizar a base vetorial. Faz a coleta ativa, processa e popula o ChromaDB.
+Script utilitário executado sob demanda para atualizar a base vetorial. Ele extrai de forma limpa os artigos da Wikipedia do Brasil de 1930 a 2026, fatiando os arquivos de maneira estruturada e populando a coleção no ChromaDB.
 
 ### Pipeline RAG
 Componente core desenvolvido em Python utilizando **LangChain** que orquestra:
-1. Retrieval (recuperação semântica).
-2. Augmentation (formatação e injeção do prompt).
-3. Generation (chamada e tratamento de resposta do Gemini).
+1. **Query Expansion** (Expansão dinâmica via LLM em `MultiQueryRAGRetriever`).
+2. **Retrieval** (Busca semântica avançada).
+3. **Augmentation** (Formatação e injeção do prompt de contexto).
+4. **Generation** (Chamada e tratamento de resposta do Gemini).
 
 ---
 

@@ -1,6 +1,6 @@
 # 🇧🇷 BrasilnaCopaAI
 
-> Um chatbot inteligente baseado em **Retrieval-Augmented Generation (RAG)** capaz de responder perguntas sobre a participação da **Seleção Brasileira na Copa do Mundo FIFA 2026**, utilizando documentos da Wikipedia como base de conhecimento e o Google Gemini para geração de respostas contextualizadas.
+> Um chatbot inteligente baseado em **Retrieval-Augmented Generation (RAG)** capaz de responder perguntas sobre a história e participação da **Seleção Brasileira nas Copas do Mundo FIFA** (geral de todas as edições), utilizando documentos da Wikipedia como base de conhecimento e o Google Gemini para geração de respostas contextualizadas.
 
 <p align="center">
   <img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow" alt="Status">
@@ -17,7 +17,7 @@
 
 O **BrasilnaCopaAI** é um projeto de portfólio desenvolvido com foco em Inteligência Artificial Generativa e Engenharia de Dados. 
 
-Ao invés de depender do conhecimento padrão (e estático) de um modelo de linguagem, o sistema realiza buscas semânticas em um banco vetorial local contendo documentos extraídos da Wikipedia sobre a Copa do Mundo 2026. Apenas os trechos mais relevantes são enviados ao modelo generativo (**Google Gemini**), garantindo respostas confiáveis, contextualizadas e sem alucinações.
+Ao invés de depender do conhecimento padrão (e estático) de um modelo de linguagem, o sistema realiza buscas semânticas em um banco vetorial local contendo documentos extraídos da Wikipedia sobre a Seleção Brasileira nas Copas do Mundo. Apenas os trechos mais relevantes são enviados ao modelo generativo (**Google Gemini**), garantindo respostas confiáveis, contextualizadas e sem alucinações.
 
 ---
 

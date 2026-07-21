@@ -50,7 +50,7 @@ O desenvolvimento é conduzido por meio de tarefas organizadas em Épicos e Feat
 Responsável pela preparação do ambiente de desenvolvimento e organização inicial do projeto.
 
 ### Feature 1.1 — Configuração do Repositório
-- [ ] Criar repositório no GitHub
+- [x] Criar repositório no GitHub
 - [x] Configurar licença MIT
 - [x] Adicionar README inicial
 - [x] Configurar `.gitignore`

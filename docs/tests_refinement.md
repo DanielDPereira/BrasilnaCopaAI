@@ -22,7 +22,7 @@ As implementações foram estruturadas nas seguintes frentes:
 ### 2. Testes de Métricas de Qualidade do RAG (`tests/test_quality.py`)
 * **Precisão do Retriever**: Valida se a busca semântica pelo termo "Pelé" traz trechos relevantes com conteúdo associado a "Pelé", "Copa", "Brasil", etc.
 * **Medição de Latência**:
-  * Mede o tempo de busca local no ChromaDB (garantindo que seja `< 1.0` segundo).
+  * Mede o tempo de busca local no ChromaDB (garantindo que seja `< 1.5` segundo). Para isolar a latência da busca vetorial local dos atrasos da rede, o LLM de expansão de consultas é mockado no teste de latência.
   * Mede e exibe a latência da chamada externa à API do Gemini. Para evitar que variações de conexão com os servidores do Google causem falhas intermitentes no CI, o tempo da LLM é impresso no console sem gerar falhas rígidas (evitando testes flaky).
 * **Proteção contra Alucinações (Perguntas Fora do Escopo)**: Testa o envio de perguntas não correlacionadas com a Seleção nas Copas (ex: *"Como cozinhar uma lasanha de berinjela?"*). O teste valida se o pipeline ativa a resposta literal de fallback especificada nas diretrizes do prompt.
 
@@ -37,7 +37,7 @@ As implementações foram estruturadas nas seguintes frentes:
 
 ## 🚀 Como executar os testes
 
-Você pode rodar toda a suíte de testes (agora com **27 testes ativos**) utilizando:
+Você pode rodar toda a suíte de testes (agora com **28 testes ativos**) utilizando:
 
 ```bash
 pytest -s

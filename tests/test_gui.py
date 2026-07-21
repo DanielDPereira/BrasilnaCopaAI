@@ -36,7 +36,7 @@ def test_streamlit_app_compiles_and_renders(mock_get):
     assert len(at.slider) == 1
     slider = at.slider[0]
     assert slider.label == "Quantidade de Contexto (Top-K)"
-    assert slider.value == 4
+    assert slider.value == 6
     
     # Valida a presença do botão de limpeza de histórico no sidebar
     assert len(at.button) == 1

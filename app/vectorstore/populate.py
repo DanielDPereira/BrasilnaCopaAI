@@ -90,7 +90,7 @@ def populate_database() -> None:
     
     try:
         # Insere no ChromaDB em lotes (batches) menores e com sleep para não exceder limites de requisições
-        batch_size = 10
+        batch_size = 20
         print(f"🚀 Enviando {total_chunks} chunks para o ChromaDB em lotes de {batch_size}...")
         
         import time
@@ -98,7 +98,7 @@ def populate_database() -> None:
             batch = all_documents[i:i + batch_size]
             print(f"📦 Indexando lote {i // batch_size + 1} / {(len(all_documents) - 1) // batch_size + 1} ({len(batch)} chunks)...")
             
-            retries = 3
+            retries = 5
             success = False
             while retries > 0 and not success:
                 try:
@@ -110,8 +110,8 @@ def populate_database() -> None:
                     err_msg = str(e)
                     if "RESOURCE_EXHAUSTED" in err_msg or "429" in err_msg:
                         retries -= 1
-                        print(f"⏳ Limite de requisições excedido. Aguardando 35 segundos para recuperar cota... (Tentativas restantes: {retries})")
-                        time.sleep(35)
+                        print(f"⏳ Limite de requisições excedido. Aguardando 40 segundos para recuperar cota... (Tentativas restantes: {retries})")
+                        time.sleep(40)
                     else:
                         raise e
             if not success:
@@ -122,7 +122,9 @@ def populate_database() -> None:
         print(f"💾 Banco vetorial persistido em: {os.getenv('CHROMA_DB_PATH', 'data/db')}")
         print("====================================================")
     except Exception as e:
-        print(f"💥 Erro crítico ao indexar documentos no ChromaDB: {str(e)}", file=sys.stderr)
+        import traceback
+        print("💥 Erro crítico ao indexar documentos no ChromaDB:", file=sys.stderr)
+        traceback.print_exc()
         sys.exit(1)
 
 if __name__ == "__main__":

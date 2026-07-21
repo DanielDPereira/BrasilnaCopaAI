@@ -107,8 +107,8 @@ with st.sidebar:
     k_value = st.slider(
         "Quantidade de Contexto (Top-K)",
         min_value=1,
-        max_value=10,
-        value=4,
+        max_value=12,
+        value=6,
         help="Controla o número de fragmentos de documentos (chunks) recuperados para embasar a resposta."
     )
     

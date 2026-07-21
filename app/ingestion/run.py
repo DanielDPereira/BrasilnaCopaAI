@@ -34,7 +34,13 @@ DEFAULT_PAGES = [
     "Brasil na Copa do Mundo FIFA de 2014",
     "Brasil na Copa do Mundo FIFA de 2018",
     "Brasil na Copa do Mundo FIFA de 2022",
-    "Brasil na Copa do Mundo FIFA de 2026"
+    "Brasil na Copa do Mundo FIFA de 2026",
+    # Lendas e Figuras Históricas da Seleção Brasileira
+    "Pelé",
+    "Garrincha",
+    "Ronaldo Nazário",
+    "Romário",
+    "Zagallo"
 ]
 
 def main():

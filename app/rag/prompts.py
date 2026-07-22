@@ -16,14 +16,18 @@ Diretrizes importantes:
 Contexto de referência:
 {context}"""
 
-def get_prompt_template() -> ChatPromptTemplate:
+def get_prompt_template(custom_prompt: str | None = None) -> ChatPromptTemplate:
     """
     Retorna o ChatPromptTemplate estruturado com as mensagens de sistema e usuário.
     
+    Args:
+        custom_prompt: Prompt de sistema alternativo fornecido para testes.
+        
     Returns:
         ChatPromptTemplate pronto para ser usado no pipeline RAG.
     """
+    system_content = custom_prompt if custom_prompt is not None else SYSTEM_PROMPT
     return ChatPromptTemplate.from_messages([
-        ("system", SYSTEM_PROMPT),
+        ("system", system_content),
         ("human", "{question}")
     ])

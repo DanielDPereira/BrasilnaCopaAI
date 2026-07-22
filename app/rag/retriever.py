@@ -31,7 +31,17 @@ class MultiQueryRAGRetriever(BaseRetriever):
         try:
             response = self.llm.invoke(prompt)
             queries = [query]
-            for line in response.content.split("\n"):
+            content = response.content
+            if isinstance(content, list):
+                text_parts = []
+                for part in content:
+                    if isinstance(part, str):
+                        text_parts.append(part)
+                    elif isinstance(part, dict) and "text" in part:
+                        text_parts.append(part["text"])
+                content = "".join(text_parts)
+            
+            for line in content.split("\n"):
                 line = line.strip().strip("-").strip("*").strip("123456789. ")
                 if line:
                     queries.append(line)

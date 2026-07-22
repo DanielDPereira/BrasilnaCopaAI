@@ -93,9 +93,57 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Inicialização de histórico do chat em session state
+DEFAULT_SYSTEM_PROMPT = """Você é um assistente de IA especialista na história e participação da Seleção Brasileira nas Copas do Mundo FIFA.
+Sua base de conhecimento inclui a trajetória do Brasil em todas as edições de Copas do Mundo, detalhes de partidas históricas (como o Maracanaço de 1950 e o Mineiraço de 2014), conquistas, estatísticas e o desempenho de grandes lendas e jogadores notórios (como Pelé, Garrincha, Neymar, Ronaldo Nazário, Romário, Zico, Rivaldo, Cafu, Ronaldinho Gaúcho, Jairzinho, Bebeto, Roberto Carlos, Kaká e Zagallo), bem como treinadores históricos (como Luiz Felipe Scolari e Carlos Alberto Parreira).
+
+Responda às perguntas dos usuários de forma educada, precisa, detalhada e rica, utilizando estritamente e exclusivamente as informações fornecidas no contexto abaixo.
+
+Diretrizes importantes:
+1. Responda apenas com base nas informações fornecidas no contexto. Não utilize conhecimento prévio ou externo ao contexto sob nenhuma circunstância.
+2. Se as informações fornecidas no contexto não contiverem a resposta para a pergunta, responda obrigatoriamente e de forma literal: "Não possuo essa informação em minha base de dados sobre a Seleção Brasileira nas Copas do Mundo."
+3. Não alucine, não invente fatos, elencos, datas, placares ou estatísticas que não estejam explicitamente no contexto.
+4. Responda sempre em português do Brasil.
+5. **Seja detalhado e contextualize suas respostas:** Em vez de dar respostas extremamente curtas de uma única frase, elabore explicações completas contendo detalhes adicionais e fatos históricos relevantes presentes no contexto (como o número de jogos disputados, gols marcados, adversários enfrentados, atuações marcantes e curiosidades relacionadas), enriquecendo a resposta.
+6. **Formatação Premium:** Organize a resposta de forma clara e profissional, utilizando marcações em negrito, tópicos (bullet points) ou parágrafos bem definidos para estruturar a informação de forma elegante e legível.
+
+Contexto de referência:
+{context}"""
+
+# Inicialização de histórico do chat e configurações em session state
 if "messages" not in st.session_state:
     st.session_state.messages = []
+if "custom_prompt" not in st.session_state:
+    st.session_state.custom_prompt = DEFAULT_SYSTEM_PROMPT
+if "temperature" not in st.session_state:
+    st.session_state.temperature = 0.0
+
+# Decorator de diálogo para edição de prompt de sistema
+@st.dialog("⚙️ Prompt de Sistema do RAG", width="large")
+def show_prompt_editor():
+    st.markdown("Ajuste as diretrizes e instruções do assistente para testar e brincar com o RAG.")
+    
+    edited_prompt = st.text_area(
+        "Instrução do Sistema (System Prompt)",
+        value=st.session_state.custom_prompt,
+        height=380,
+        help="Mantenha a marcação {context} no final do prompt para que o ChromaDB possa injetar os chunks de contexto."
+    )
+    
+    # Validação simples de segurança
+    if "{context}" not in edited_prompt:
+        st.warning("⚠️ Atenção: O prompt não contém a variável '{context}'. O banco vetorial não poderá injetar as informações recuperadas.")
+        
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Salvar Prompt", use_container_width=True):
+            st.session_state.custom_prompt = edited_prompt
+            st.toast("Prompt de sistema personalizado salvo!", icon="💾")
+            st.rerun()
+    with col2:
+        if st.button("Restaurar Padrão", use_container_width=True):
+            st.session_state.custom_prompt = DEFAULT_SYSTEM_PROMPT
+            st.toast("Prompt padrão restaurado!", icon="🔄")
+            st.rerun()
 
 # Sidebar de Configurações e Sobre
 with st.sidebar:
@@ -112,8 +160,23 @@ with st.sidebar:
         help="Controla o número de fragmentos de documentos (chunks) recuperados para embasar a resposta."
     )
     
+    # Controle de Temperatura
+    temp_value = st.slider(
+        "Criatividade (Temperatura)",
+        min_value=0.0,
+        max_value=1.5,
+        value=st.session_state.temperature,
+        step=0.1,
+        help="Valores mais baixos (ex: 0.0) garantem respostas precisas e determinísticas baseadas no contexto. Valores altos trazem mais expressividade."
+    )
+    st.session_state.temperature = temp_value
+    
+    # Botão para editar prompt (dialog)
+    if st.button("⚙️ Editar Prompt do Sistema", use_container_width=True):
+        show_prompt_editor()
+        
     # Botão para limpar histórico de conversa
-    if st.button("Limpar Histórico do Chat", use_container_width=True):
+    if st.button("🗑️ Limpar Histórico do Chat", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
         
@@ -168,17 +231,26 @@ with chat_placeholder:
             st.markdown(message["content"])
             
             # Se for do assistente e possuir fontes, exibe-as formatadas
-            if message["role"] == "assistant" and message.get("sources"):
-                st.markdown('<div class="source-container"><b>Fontes utilizadas:</b><br>', unsafe_allow_html=True)
-                sources_html = ""
-                for src in message["sources"]:
-                    title = src.get("title", "Artigo")
-                    url = src.get("url", "")
-                    if url and url != "Sem link de origem":
-                        sources_html += f'<a class="source-link" href="{url}" target="_blank">📄 {title}</a> '
-                    else:
-                        sources_html += f'<span style="color:#8c9e90; margin-right:15px;">📄 {title} (Sem Link)</span>'
-                st.markdown(sources_html + '</div>', unsafe_allow_html=True)
+            if message["role"] == "assistant":
+                if message.get("sources"):
+                    st.markdown('<div class="source-container"><b>Fontes utilizadas:</b><br>', unsafe_allow_html=True)
+                    sources_html = ""
+                    for src in message["sources"]:
+                        title = src.get("title", "Artigo")
+                        url = src.get("url", "")
+                        if url and url != "Sem link de origem":
+                            sources_html += f'<a class="source-link" href="{url}" target="_blank">📄 {title}</a> '
+                        else:
+                            sources_html += f'<span style="color:#8c9e90; margin-right:15px;">📄 {title} (Sem Link)</span>'
+                    st.markdown(sources_html + '</div>', unsafe_allow_html=True)
+                
+                # Exibe chunks de contexto recuperados se disponíveis
+                if message.get("context_chunks"):
+                    with st.expander("🔍 Visualizar Chunks do ChromaDB (Contexto Recuperado)"):
+                        for idx, chunk in enumerate(message["context_chunks"]):
+                            st.markdown(f"**Trecho {idx + 1} — {chunk['title']}**")
+                            st.caption(f"Origem: {chunk['url']}")
+                            st.code(chunk["content"], language="text")
 
 # Entrada do chat
 if user_input := st.chat_input("Pergunte algo sobre a Seleção nas Copas (ex: Quem foi o artilheiro em 1958?)"):
@@ -200,13 +272,20 @@ if user_input := st.chat_input("Pergunte algo sobre a Seleção nas Copas (ex: Q
                     st.session_state.messages.append({"role": "assistant", "content": error_msg})
                 else:
                     try:
-                        payload = {"message": user_input, "k": k_value}
+                        # Envia prompt de sistema personalizado e temperatura configurados no frontend
+                        payload = {
+                            "message": user_input,
+                            "k": k_value,
+                            "custom_system_prompt": st.session_state.custom_prompt,
+                            "temperature": st.session_state.temperature
+                        }
                         response = requests.post(f"{BACKEND_URL}/chat", json=payload, timeout=30)
                         
                         if response.status_code == 200:
                             data = response.json()
                             answer = data.get("response", "")
                             sources = data.get("sources", [])
+                            context_chunks = data.get("context_chunks", [])
                             
                             # Exibe a resposta
                             st.markdown(answer)
@@ -223,12 +302,21 @@ if user_input := st.chat_input("Pergunte algo sobre a Seleção nas Copas (ex: Q
                                     else:
                                         sources_html += f'<span style="color:#8c9e90; margin-right:15px;">📄 {title} (Sem Link)</span>'
                                 st.markdown(sources_html + '</div>', unsafe_allow_html=True)
+                            
+                            # Exibe os chunks recuperados
+                            if context_chunks:
+                                with st.expander("🔍 Visualizar Chunks do ChromaDB (Contexto Recuperado)"):
+                                    for idx, chunk in enumerate(context_chunks):
+                                        st.markdown(f"**Trecho {idx + 1} — {chunk['title']}**")
+                                        st.caption(f"Origem: {chunk['url']}")
+                                        st.code(chunk["content"], language="text")
                                 
-                            # Salva no histórico
+                            # Salva no histórico com todas as informações enriquecidas
                             st.session_state.messages.append({
                                 "role": "assistant",
                                 "content": answer,
-                                "sources": sources
+                                "sources": sources,
+                                "context_chunks": context_chunks
                             })
                         elif response.status_code == 503:
                             err_detail = response.json().get("detail", "Limite de quota temporariamente excedido.")

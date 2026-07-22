@@ -12,16 +12,18 @@ class RAGPipeline:
     Responsável por gerenciar a busca semântica no banco vetorial local (ChromaDB)
     e estruturar a cadeia que se conecta ao Google Gemini para obter respostas.
     """
-    def __init__(self, k: int = 4):
+    def __init__(self, k: int = 4, custom_system_prompt: str | None = None, temperature: float = 0.0):
         """
         Inicializa o pipeline RAG.
         
         Args:
             k: Número de documentos (chunks) a serem retornados na busca semântica.
+            custom_system_prompt: Prompt de sistema personalizado opcional.
+            temperature: Temperatura do modelo LLM.
         """
         self.retriever = get_retriever(k=k)
-        self.prompt_template = get_prompt_template()
-        self.llm = get_llm()
+        self.prompt_template = get_prompt_template(custom_prompt=custom_system_prompt)
+        self.llm = get_llm(temperature=temperature)
         self.prompt_chain = self._build_prompt_chain()
         self.chain = self._build_chain()
 

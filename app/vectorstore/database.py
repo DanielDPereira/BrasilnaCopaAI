@@ -4,7 +4,7 @@ from typing import List, Optional
 from dotenv import load_dotenv
 from langchain_core.embeddings import Embeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 # Configura logger básico
 logger = logging.getLogger(__name__)

@@ -3,7 +3,7 @@ import shutil
 import pytest
 from langchain_core.documents import Document
 from langchain_core.embeddings import Embeddings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 # Classe Mock de Embeddings para testes sem precisar chamar a API externa do Gemini
 class SimpleMockEmbeddings(Embeddings):

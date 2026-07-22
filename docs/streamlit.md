@@ -15,7 +15,9 @@ Nesta etapa, implementamos a interface visual (UI/UX) do chatbot utilizando o **
 A interface visual foi concentrada no arquivo [app.py](../streamlit/app.py) e estruturada nas seguintes áreas:
 
 ### 1. Configurações na Barra Lateral (Sidebar)
-* **Slider de Top-K**: Controle dinâmico permitindo ao usuário selecionar de 1 a 10 chunks para a recuperação semântica no ChromaDB.
+* **Slider de Top-K**: Controle dinâmico permitindo ao usuário selecionar de 1 a 12 chunks para a recuperação semântica no ChromaDB.
+* **Slider de Temperatura (Criatividade)**: Ajusta o nível de temperatura da LLM (de `0.0` a `1.5`) para regular o determinismo ou inventividade das respostas geradas.
+* **Botão "Editar Prompt do Sistema"**: Aciona uma janela de diálogo (`st.dialog`) onde desenvolvedores e usuários podem inspecionar, customizar ou restaurar o System Prompt utilizado na cadeia RAG.
 * **Monitor de Conexão com API**:
   * Realiza uma chamada de ping em `/health` e exibe em tempo real o status online/offline da API.
   * Se online, exibe a versão do backend e a saúde da base vetorial (chunks cadastrados).
@@ -27,8 +29,9 @@ A interface visual foi concentrada no arquivo [app.py](../streamlit/app.py) e es
 * **Visualização de Mensagens**: Mensagens do chat diferenciadas entre Usuário e Assistente de forma nativa e limpa (`st.chat_message`).
 * **Indicadores de Carregamento**: Spinner animado ativo enquanto o backend FastAPI e a API Gemini processam a busca e a resposta.
 
-### 3. Exibição de Fontes e Resiliência
+### 3. Exibição de Fontes, Chunks e Resiliência
 * Cada mensagem gerada pelo RAG apresenta uma caixa estilizada na base do balão (`source-container`) listando os links das fontes da Wikipedia consultadas.
+* **Explorador de Chunks**: Cada resposta do assistente conta com um painel colapsável (`st.expander`) que revela os chunks textuais brutos retornados pelo ChromaDB que compuseram o prompt do Gemini, permitindo auditoria da resposta.
 * Se a conexão falhar ou o Gemini estourar limites de cota (erros 429/503), o frontend captura a falha e avisa graciosamente na tela com mensagens compreensíveis (por exemplo, avisando para tentar novamente em instantes) sem quebrar o fluxo.
 
 ---

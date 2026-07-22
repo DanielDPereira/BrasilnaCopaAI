@@ -17,13 +17,20 @@ A lógica do servidor API foi concentrada no arquivo [main.py](../app/main.py) e
 ### 1. Esquemas de Dados Pydantic
 * **`ChatRequest`**:
   * `message: str` (Obrigatório, tamanho mínimo de 1 caractere).
-  * `k: int` (Opcional, com padrão `4`, limitado entre `1` e `10` via validações do Pydantic).
+  * `k: int` (Opcional, com padrão `4`, limitado entre `1` e `12` via validações do Pydantic).
+  * `custom_system_prompt: str | None` (Opcional, permite injetar instruções alternativas para experimentar e brincar com o RAG).
+  * `temperature: float` (Opcional, com padrão `0.0`, limitado entre `0.0` e `2.0` para controle de criatividade da LLM).
 * **`ChatSource`**:
   * `title: str` (Título do artigo retornado da base de conhecimento).
   * `url: str` (Link direto para o artigo correspondente na Wikipedia).
+* **`ContextChunk`**:
+  * `title: str` (Título do artigo do chunk).
+  * `content: str` (Conteúdo do texto cru recuperado no ChromaDB).
+  * `url: str` (Link direto na Wikipedia correspondente ao chunk).
 * **`ChatResponse`**:
   * `response: str` (A resposta final gerada pelo Gemini).
   * `sources: List[ChatSource]` (Coleção das fontes exclusivas e sem repetições que serviram como embasamento).
+  * `context_chunks: List[ContextChunk]` (A lista com todos os fragmentos textuais originais injetados no prompt do Gemini, permitindo auditorias e visualizações).
 
 ### 2. Endpoints HTTP expostos
 * **`GET /health`**:

@@ -1,4 +1,4 @@
-from typing import List
+from typing import Any, List
 from langchain_core.retrievers import BaseRetriever
 from langchain_core.callbacks import CallbackManagerForRetrieverRun
 from langchain_core.documents import Document
@@ -11,8 +11,8 @@ class MultiQueryRAGRetriever(BaseRetriever):
     Para cada pergunta recebida, gera 3 variações de busca adicionais para
     maximizar a cobertura (recall) do contexto retornado do ChromaDB.
     """
-    vectorstore: any
-    llm: any
+    vectorstore: Any
+    llm: Any
     k: int = 4
 
     class Config:

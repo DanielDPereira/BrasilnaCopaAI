@@ -62,10 +62,14 @@ pytest tests/test_api.py
 * Valida o monitoramento em `/health`, as respostas corretas e checagem de fontes duplicadas em `/chat`, validação de erros Pydantic (mensagens vazias) e tratamento do erro de limite de quota (503).
 
 ### 2. Rodar a API localmente
+Certifique-se de que o ambiente virtual esteja ativo ou execute os comandos utilizando os binários da pasta `.venv` (para evitar erros de pacotes não encontrados):
+
 ```bash
-python -m app.main
-# ou
-uvicorn app.main:app --reload
+# Utilizando o executável do ambiente virtual (Recomendado)
+.venv\Scripts\python -m app.main
+
+# Ou executando o uvicorn diretamente do ambiente virtual
+.venv\Scripts\uvicorn app.main:app --reload
 ```
 A API iniciará no endereço `http://127.0.0.1:8000`. Você pode testar os endpoints de duas maneiras:
 * **Interativo (Swagger UI)**: Acesse [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) e use a aba "Try it out" na rota `/chat`.

@@ -49,14 +49,16 @@ Para rodar a interface web, certifique-se de que o backend FastAPI está rodando
 
 ### 1. Rodar o Backend API (FastAPI)
 ```bash
-python -m app.main
-# ou
-uvicorn app.main:app --reload
+# Executando pelo interpretador do ambiente virtual (Recomendado)
+.venv\Scripts\python -m app.main
+# ou usando o uvicorn do ambiente virtual diretamente
+.venv\Scripts\uvicorn app.main:app --reload
 ```
 
 ### 2. Rodar o Frontend Web (Streamlit)
 ```bash
-streamlit run streamlit/app.py
+# Executando o streamlit do ambiente virtual
+.venv\Scripts\streamlit run streamlit/app.py
 ```
 A interface Streamlit abrirá automaticamente no seu navegador padrão em `http://localhost:8501`.
 Você verá a barra lateral informando **● Backend Online** e poderá iniciar a conversa!

@@ -370,36 +370,34 @@ class LocalONNXEmbeddings(Embeddings):
         return self._embed([text])[0]
 
 
-# Singleton/Instância compartilhada do gerenciador de chaves
-_key_manager_instance: Optional[GeminiAPIKeyManager] = None
-
-def get_key_manager() -> GeminiAPIKeyManager:
-    """Retorna a instância compartilhada do gerenciador de chaves."""
-    global _key_manager_instance
-    if _key_manager_instance is None:
-        _key_manager_instance = GeminiAPIKeyManager()
-    return _key_manager_instance
+_embedding_model_instance: Optional[Embeddings] = None
+_vectorstore_instance: Optional[Chroma] = None
 
 def get_embedding_model() -> Embeddings:
     """
     Cria e retorna a instância de embeddings configurada (Local ONNX ou Gemini Fallback).
     """
-    if os.getenv("USE_LOCAL_EMBEDDINGS", "").lower() == "true":
-        logger.info("Usando embeddings locais (paraphrase-multilingual-MiniLM-L12-v2 ONNX)")
-        return LocalONNXEmbeddings()
-        
-    key_manager = get_key_manager()
-    return FallbackGeminiEmbeddings(key_manager=key_manager)
+    global _embedding_model_instance
+    if _embedding_model_instance is None:
+        if os.getenv("USE_LOCAL_EMBEDDINGS", "").lower() == "true":
+            logger.info("Usando embeddings locais (paraphrase-multilingual-MiniLM-L12-v2 ONNX)")
+            _embedding_model_instance = LocalONNXEmbeddings()
+        else:
+            key_manager = get_key_manager()
+            _embedding_model_instance = FallbackGeminiEmbeddings(key_manager=key_manager)
+    return _embedding_model_instance
 
 def get_vectorstore() -> Chroma:
     """
     Retorna a instância do ChromaDB configurada com os embeddings suportados por fallback.
     """
-    chroma_db_path = os.getenv("CHROMA_DB_PATH", "data/db")
-    embeddings = get_embedding_model()
-    
-    return Chroma(
-        collection_name="brasil_copa_2026",
-        embedding_function=embeddings,
-        persist_directory=chroma_db_path
-    )
+    global _vectorstore_instance
+    if _vectorstore_instance is None:
+        chroma_db_path = os.getenv("CHROMA_DB_PATH", "data/db")
+        embeddings = get_embedding_model()
+        _vectorstore_instance = Chroma(
+            collection_name="brasil_copa_2026",
+            embedding_function=embeddings,
+            persist_directory=chroma_db_path
+        )
+    return _vectorstore_instance

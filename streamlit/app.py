@@ -186,7 +186,7 @@ with st.sidebar:
     # Função para testar conexão com o backend FastAPI
     def check_backend_health():
         try:
-            response = requests.get(f"{BACKEND_URL}/health", timeout=2)
+            response = requests.get(f"{BACKEND_URL}/health", timeout=5)
             if response.status_code == 200:
                 return True, response.json()
         except Exception:

@@ -35,6 +35,7 @@ class FallbackChatGemini(Runnable):
         self.llm = ChatGoogleGenerativeAI(
             model=self.model,
             google_api_key=self.key_manager.current_key,
+            max_retries=0,
             **self.kwargs
         )
 

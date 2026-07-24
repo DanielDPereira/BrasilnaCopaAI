@@ -272,12 +272,18 @@ if user_input := st.chat_input("Pergunte algo sobre a Seleção nas Copas (ex: Q
                     st.session_state.messages.append({"role": "assistant", "content": error_msg})
                 else:
                     try:
-                        # Envia prompt de sistema personalizado e temperatura configurados no frontend
+                        # Envia prompt de sistema personalizado, temperatura e histórico configurados no frontend
+                        history_payload = [
+                            {"role": msg["role"], "content": msg["content"]}
+                            for msg in st.session_state.messages[:-1]
+                            if msg["role"] in ["user", "assistant"] and not msg["content"].startswith("Erro de conexão") and not msg["content"].startswith("Falha ao processar")
+                        ]
                         payload = {
                             "message": user_input,
                             "k": k_value,
                             "custom_system_prompt": st.session_state.custom_prompt,
-                            "temperature": st.session_state.temperature
+                            "temperature": st.session_state.temperature,
+                            "history": history_payload
                         }
                         response = requests.post(f"{BACKEND_URL}/chat", json=payload, timeout=60)
                         

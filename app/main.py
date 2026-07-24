@@ -48,12 +48,17 @@ class HealthCheckResponse(BaseModel):
     version: str
     database: str
 
+class HistoryMessage(BaseModel):
+    role: str = Field(..., description="Papel do autor da mensagem ('user' ou 'assistant')")
+    content: str = Field(..., description="Conteúdo textual da mensagem")
+
 # Modelos de requisição e resposta do Chat RAG
 class ChatRequest(BaseModel):
     message: str = Field(..., min_length=1, description="Pergunta a ser enviada ao RAG")
     k: int = Field(default=4, ge=1, le=10, description="Número de chunks de contexto a serem recuperados")
     custom_system_prompt: str | None = Field(default=None, description="Prompt de sistema personalizado")
     temperature: float = Field(default=0.0, ge=0.0, le=2.0, description="Temperatura do modelo de linguagem")
+    history: List[HistoryMessage] = Field(default=[], description="Histórico de mensagens anteriores")
 
 class ChatSource(BaseModel):
     title: str = Field(..., description="Título do artigo de origem")
@@ -106,11 +111,14 @@ async def chat(request: ChatRequest):
     try:
         pipeline = RAGPipeline(k=request.k, custom_system_prompt=request.custom_system_prompt, temperature=request.temperature)
         
-        # 1. Busca documentos relevantes no ChromaDB
-        docs = pipeline.retrieve_context(request.message)
+        # Converte mensagens de histórico para dicionários
+        history_dicts = [h.model_dump() for h in request.history]
+        
+        # 1. Busca documentos relevantes no ChromaDB com reformulação de consulta
+        docs = pipeline.retrieve_context(request.message, history=history_dicts)
         
         # 2. Executa a geração de resposta via cadeia RAG
-        answer = pipeline.ask(request.message)
+        answer = pipeline.ask(request.message, history=history_dicts)
         
         # 3. Extrai as fontes exclusivas eliminando duplicidades
         seen_urls = set()

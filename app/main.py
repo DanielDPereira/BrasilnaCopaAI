@@ -10,11 +10,26 @@ from app.rag.pipeline import RAGPipeline
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Pré-inicializa o vectorstore no startup para carregar os embeddings na memória
+    logger.info("Pré-inicializando o banco vetorial e o modelo de embeddings...")
+    try:
+        from app.vectorstore.database import get_vectorstore
+        get_vectorstore()
+        logger.info("Banco vetorial pré-inicializado com sucesso!")
+    except Exception as e:
+        logger.error(f"Erro na pré-inicialização do banco vetorial: {e}")
+    yield
+
 # Definição do app FastAPI com metadados para o Swagger
 app = FastAPI(
     title="BrasilnaCopaAI API",
     description="Backend API para o chatbot inteligente sobre a história e participação da Seleção Brasileira nas Copas do Mundo.",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 # Configuração de CORS (Cross-Origin Resource Sharing)

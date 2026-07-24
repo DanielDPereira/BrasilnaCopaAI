@@ -3,7 +3,7 @@ import logging
 from typing import Any, List, Optional
 from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_google_genai import ChatGoogleGenerativeAI
-from app.vectorstore.database import GeminiAPIKeyManager
+from app.vectorstore.database import GeminiAPIKeyManager, get_key_manager
 
 logger = logging.getLogger(__name__)
 
@@ -95,7 +95,7 @@ def get_llm(temperature: float = 0.0, model: str = "gemini-flash-latest") -> Fal
     """
     Retorna a instância da LLM resiliente pré-configurada.
     """
-    key_manager = GeminiAPIKeyManager()
+    key_manager = get_key_manager()
     return FallbackChatGemini(
         key_manager=key_manager,
         model=model,

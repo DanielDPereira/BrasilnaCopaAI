@@ -279,7 +279,7 @@ if user_input := st.chat_input("Pergunte algo sobre a Seleção nas Copas (ex: Q
                             "custom_system_prompt": st.session_state.custom_prompt,
                             "temperature": st.session_state.temperature
                         }
-                        response = requests.post(f"{BACKEND_URL}/chat", json=payload, timeout=30)
+                        response = requests.post(f"{BACKEND_URL}/chat", json=payload, timeout=60)
                         
                         if response.status_code == 200:
                             data = response.json()

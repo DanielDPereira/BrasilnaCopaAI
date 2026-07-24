@@ -59,12 +59,12 @@ class FallbackChatGemini(Runnable):
                     return self.llm.invoke(input, config)
                 except Exception as e:
                     err_str = str(e)
+                    last_error = e
                     # Se for erro de cota (429/RESOURCE_EXHAUSTED) ou acesso (403), rotacionamos chave imediatamente se tivermos outras
                     if ("RESOURCE_EXHAUSTED" in err_str or "429" in err_str or "403" in err_str) and self.key_manager.count > 1:
                         break
                         
                     local_retries -= 1
-                    last_error = e
                     if local_retries > 0:
                         logger.warning(
                             f"Falha temporária na chamada de Chat LLM (Tentativas locais restantes: {local_retries}). "

@@ -69,7 +69,7 @@ Certifique-se de que o ambiente virtual esteja ativo ou execute os comandos util
 .venv\Scripts\python -m app.main
 
 # Ou executando o uvicorn diretamente do ambiente virtual
-.venv\Scripts\uvicorn app.main:app --reload
+.venv\Scripts\uvicorn app.main:app --reload --reload-dir app
 ```
 A API iniciará no endereço `http://127.0.0.1:8000`. Você pode testar os endpoints de duas maneiras:
 * **Interativo (Swagger UI)**: Acesse [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) e use a aba "Try it out" na rota `/chat`.

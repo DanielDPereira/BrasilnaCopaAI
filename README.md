@@ -115,7 +115,7 @@ GEMINI_API_KEY=sua_chave_aqui
 
 ### 5. Executar o Backend (FastAPI)
 ```bash
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --reload-dir app
 ```
 * O backend rodará em `http://localhost:8000`.
 * Acesse a documentação Swagger interativa em `http://localhost:8000/docs`.

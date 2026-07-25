@@ -52,7 +52,7 @@ Para rodar a interface web, certifique-se de que o backend FastAPI está rodando
 # Executando pelo interpretador do ambiente virtual (Recomendado)
 .venv\Scripts\python -m app.main
 # ou usando o uvicorn do ambiente virtual diretamente
-.venv\Scripts\uvicorn app.main:app --reload
+.venv\Scripts\uvicorn app.main:app --reload --reload-dir app
 ```
 
 ### 2. Rodar o Frontend Web (Streamlit)

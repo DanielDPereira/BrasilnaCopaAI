@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Banco Vetorial local (ChromaDB)
+data/db/
+
+# Modelos locais ONNX para Embeddings
+data/models/
+

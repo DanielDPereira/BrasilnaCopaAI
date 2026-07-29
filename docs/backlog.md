@@ -50,29 +50,29 @@ O desenvolvimento é conduzido por meio de tarefas organizadas em Épicos e Feat
 Responsável pela preparação do ambiente de desenvolvimento e organização inicial do projeto.
 
 ### Feature 1.1 — Configuração do Repositório
-- [ ] Criar repositório no GitHub
-- [ ] Configurar licença MIT
-- [ ] Adicionar README inicial
-- [ ] Configurar `.gitignore`
-- [ ] Definir estrutura inicial das pastas
+- [x] Criar repositório no GitHub
+- [x] Configurar licença MIT
+- [x] Adicionar README inicial
+- [x] Configurar `.gitignore`
+- [x] Definir estrutura inicial das pastas
 
 ### Feature 1.2 — Ambiente Python
-- [ ] Criar ambiente virtual
-- [ ] Criar `requirements.txt`
-- [ ] Instalar dependências iniciais
-- [ ] Configurar variáveis de ambiente
-- [ ] Criar arquivo `.env.example`
+- [x] Criar ambiente virtual
+- [x] Criar `requirements.txt`
+- [x] Instalar dependências iniciais
+- [x] Configurar variáveis de ambiente
+- [x] Criar arquivo `.env.example`
 
 ### Feature 1.3 — Backend
-- [ ] Configurar FastAPI
-- [ ] Criar endpoint de teste (`/health`)
-- [ ] Configurar documentação automática (Swagger)
-- [ ] Estruturar rotas da aplicação
+- [x] Configurar FastAPI
+- [x] Criar endpoint de teste (`/health`)
+- [x] Configurar documentação automática (Swagger)
+- [x] Estruturar rotas da aplicação
 
 ### Feature 1.4 — Frontend
-- [ ] Configurar Streamlit
-- [ ] Criar tela inicial
-- [ ] Validar comunicação com a API
+- [x] Configurar Streamlit
+- [x] Criar tela inicial
+- [x] Validar comunicação com a API
 
 > **✅ Definition of Done (Epic 1)**:
 > - Ambiente virtual e dependências configurados.
@@ -85,21 +85,21 @@ Responsável pela preparação do ambiente de desenvolvimento e organização in
 Responsável pela criação da base documental a partir da Wikipedia.
 
 ### Feature 2.1 — Coleta dos Dados
-- [ ] Estudar Wikipedia API
-- [ ] Selecionar páginas relevantes para o escopo da Copa 2026 e Seleção Brasileira
-- [ ] Implementar script de coleta automática
-- [ ] Salvar documentos brutos na pasta `data/raw/`
+- [x] Estudar Wikipedia API
+- [x] Selecionar páginas relevantes para o escopo da Seleção Brasileira nas Copas do Mundo
+- [x] Implementar script de coleta automática
+- [x] Salvar documentos brutos na pasta `data/raw/`
 
 ### Feature 2.2 — Limpeza dos Dados
-- [ ] Remover marcações HTML e ruídos
-- [ ] Remover seções e conteúdos irrelevantes
-- [ ] Corrigir problemas de codificação e caracteres especiais
-- [ ] Padronizar a formatação dos textos
+- [x] Remover marcações HTML e ruídos
+- [x] Remover seções e conteúdos irrelevantes
+- [x] Corrigir problemas de codificação e caracteres especiais
+- [x] Padronizar a formatação dos textos
 
 ### Feature 2.3 — Estruturação
-- [ ] Definir formato final para os documentos de conhecimento
-- [ ] Criar metadados úteis para filtragem futura
-- [ ] Salvar documentos processados na pasta `data/processed/`
+- [x] Definir formato final para os documentos de conhecimento
+- [x] Criar metadados úteis para filtragem futura
+- [x] Salvar documentos processados na pasta `data/processed/`
 
 > **✅ Definition of Done (Epic 2)**:
 > - Base documental bruta e processada criada localmente.
@@ -111,20 +111,20 @@ Responsável pela criação da base documental a partir da Wikipedia.
 Responsável pela preparação e armazenamento dos documentos na base vetorial.
 
 ### Feature 3.1 — Chunking
-- [ ] Estudar estratégias de chunking (ex: RecursiveCharacterTextSplitter)
-- [ ] Definir tamanho ideal de chunk e overlap apropriado
-- [ ] Implementar a divisão do texto em chunks estruturados
+- [x] Estudar estratégias de chunking (ex: RecursiveCharacterTextSplitter)
+- [x] Definir tamanho ideal de chunk e overlap apropriado
+- [x] Implementar a divisão do texto em chunks estruturados
 
 ### Feature 3.2 — Embeddings
-- [ ] Escolher modelo de embeddings adequado para o idioma português
-- [ ] Implementar geração de embeddings para os chunks
-- [ ] Validar qualidade de conversão dos embeddings
+- [x] Escolher modelo de embeddings adequado para o idioma português
+- [x] Implementar geração de embeddings para os chunks
+- [x] Validar qualidade de conversão dos embeddings
 
 ### Feature 3.3 — Banco Vetorial
-- [ ] Configurar e instanciar o ChromaDB local
-- [ ] Criar coleção persistente para o projeto
-- [ ] Inserir os chunks de documentos com seus respectivos embeddings
-- [ ] Implementar e validar consultas básicas por similaridade cosseno
+- [x] Configurar e instanciar o ChromaDB local
+- [x] Criar coleção persistente para o projeto
+- [x] Inserir os chunks de documentos com seus respectivos embeddings
+- [x] Implementar e validar consultas básicas por similaridade cosseno
 
 > **✅ Definition of Done (Epic 3)**:
 > - Divisão do texto em chunks com overlap validado.
@@ -136,19 +136,19 @@ Responsável pela preparação e armazenamento dos documentos na base vetorial.
 Responsável pela inteligência de busca e orquestração do fluxo de dados com LangChain.
 
 ### Feature 4.1 — Retriever
-- [ ] Configurar a integração do ChromaDB com LangChain
-- [ ] Criar componente de recuperação (retriever)
-- [ ] Configurar número de documentos recuperados (Top-K) e limiar de similaridade
-- [ ] Testar a qualidade dos chunks retornados para perguntas de teste
+- [x] Configurar a integração do ChromaDB com LangChain
+- [x] Criar componente de recuperação (retriever)
+- [x] Configurar número de documentos recuperados (Top-K) e limiar de similaridade
+- [x] Testar a qualidade dos chunks retornados para perguntas de teste
 
 ### Feature 4.2 — Prompt
-- [ ] Criar System Prompt limitando o modelo a responder estritamente com base nos documentos
-- [ ] Definir instruções de comportamento do chatbot (ex: tom de voz, o que fazer quando não souber a resposta)
-- [ ] Configurar tratamento de exceção (evitar alucinação)
+- [x] Criar System Prompt limitando o modelo a responder estritamente com base nos documentos
+- [x] Definir instruções de comportamento do chatbot (ex: tom de voz, o que fazer quando não souber a resposta)
+- [x] Configurar tratamento de exceção (evitar alucinação)
 
 ### Feature 4.3 — Cadeia RAG
-- [ ] Configurar a cadeia (chain) integrando o retriever e o template de prompt
-- [ ] Orquestrar o fluxo de dados do input do usuário à geração do prompt final
+- [x] Configurar a cadeia (chain) integrando o retriever e o template de prompt
+- [x] Orquestrar o fluxo de dados do input do usuário à geração do prompt final
 
 > **✅ Definition of Done (Epic 4)**:
 > - Mecanismo de busca e formatação do prompt operacionais.
@@ -160,18 +160,18 @@ Responsável pela inteligência de busca e orquestração do fluxo de dados com 
 Responsável pela conexão com a LLM do Google Gemini para resposta final.
 
 ### Feature 5.1 — API
-- [ ] Configurar a autenticação e carregamento da chave de API (`GEMINI_API_KEY`)
-- [ ] Instanciar o cliente e escolher a versão ideal do modelo (ex: Gemini Pro / Flash)
+- [x] Configurar a autenticação e carregamento da chave de API (`GEMINI_API_KEY`)
+- [x] Instanciar o cliente e escolher a versão ideal do modelo (ex: Gemini Pro / Flash)
 
 ### Feature 5.2 — Geração de Respostas
-- [ ] Enviar o prompt enriquecido com contexto + pergunta à API
-- [ ] Tratar respostas vazias, truncadas ou falhas na API do Gemini
-- [ ] Otimizar os hiperparâmetros de geração (temperatura, top-p)
+- [x] Enviar o prompt enriquecido com contexto + pergunta à API
+- [x] Tratar respostas vazias, truncadas ou falhas na API do Gemini
+- [x] Otimizar os hiperparâmetros de geração (temperatura, top-p)
 
 ### Feature 5.3 — Integração
-- [ ] Conectar o Gemini na cadeia final do LangChain
-- [ ] Validar respostas completas para variados tipos de perguntas
-- [ ] Garantir que o modelo informa quando o contexto não possui a resposta
+- [x] Conectar o Gemini na cadeia final do LangChain
+- [x] Validar respostas completas para variados tipos de perguntas
+- [x] Garantir que o modelo informa quando o contexto não possui a resposta
 
 > **✅ Definition of Done (Epic 5)**:
 > - Respostas geradas de forma dinâmica utilizando a API oficial do Gemini.
@@ -183,19 +183,19 @@ Responsável pela conexão com a LLM do Google Gemini para resposta final.
 Responsável por expor a inteligência do RAG como uma API web utilizável.
 
 ### Feature 6.1 — Endpoints
-- [ ] Implementar endpoint `/health` para verificação de status
-- [ ] Implementar endpoint principal `/chat` para receber perguntas e retornar respostas com contexto
-- [ ] Implementar endpoint para status da base de conhecimento (opcional)
+- [x] Implementar endpoint `/health` para verificação de status
+- [x] Implementar endpoint principal `/chat` para receber perguntas e retornar respostas com contexto
+- [x] Implementar endpoint para status da base de conhecimento (opcional)
 
 ### Feature 6.2 — Modelos
-- [ ] Definir esquemas de entrada (Request Models) com Pydantic
-- [ ] Definir esquemas de saída (Response Models) contendo a resposta e fontes utilizadas
-- [ ] Adicionar validações de dados nas requisições
+- [x] Definir esquemas de entrada (Request Models) com Pydantic
+- [x] Definir esquemas de saída (Response Models) contendo a resposta e fontes utilizadas
+- [x] Adicionar validações de dados nas requisições
 
 ### Feature 6.3 — Tratamento de Erros
-- [ ] Criar middleware ou handlers para capturar exceções globais
-- [ ] Configurar logs estruturados do sistema
-- [ ] Padronizar mensagens de erro retornadas para o cliente
+- [x] Criar middleware ou handlers para capturar exceções globais
+- [x] Configurar logs estruturados do sistema
+- [x] Padronizar mensagens de erro retornadas para o cliente
 
 > **✅ Definition of Done (Epic 6)**:
 > - API backend documentada nativamente via Swagger (`/docs`).
@@ -207,18 +207,18 @@ Responsável por expor a inteligência do RAG como uma API web utilizável.
 Responsável por criar a experiência visual de chat para o usuário.
 
 ### Feature 7.1 — Interface
-- [ ] Projetar layout visual responsivo e amigável (cabeçalho, barra lateral)
-- [ ] Adicionar área de entrada de texto e controles básicos
+- [x] Projetar layout visual responsivo e amigável (cabeçalho, barra lateral)
+- [x] Adicionar área de entrada de texto e controles básicos
 
 ### Feature 7.2 — Chat
-- [ ] Implementar histórico de conversas em memória (session state)
-- [ ] Exibir mensagens com estilo diferenciado de Usuário vs. Assistente
-- [ ] Adicionar indicadores visuais de carregamento enquanto aguarda a API
+- [x] Implementar histórico de conversas em memória (session state)
+- [x] Exibir mensagens com estilo diferenciado de Usuário vs. Assistente
+- [x] Adicionar indicadores visuais de carregamento enquanto aguarda a API
 
 ### Feature 7.3 — Integração
-- [ ] Criar cliente HTTP para consumir os endpoints do backend FastAPI
-- [ ] Tratar falhas de conexão com o backend graciosamente na interface do usuário
-- [ ] Exibir as fontes dos documentos utilizados na resposta
+- [x] Criar cliente HTTP para consumir os endpoints do backend FastAPI
+- [x] Tratar falhas de conexão com o backend graciosamente na interface do usuário
+- [x] Exibir as fontes dos documentos utilizados na resposta
 
 > **✅ Definition of Done (Epic 7)**:
 > - Interface web do chat funcional e estilizada.
@@ -230,19 +230,19 @@ Responsável por criar a experiência visual de chat para o usuário.
 Responsável por certificar a estabilidade e qualidade geral do projeto.
 
 ### Feature 8.1 — Testes Funcionais
-- [ ] Escrever testes unitários e de integração para os endpoints da API (usando pytest)
-- [ ] Escrever testes básicos para o pipeline de dados
-- [ ] Testar a interface Streamlit simulando interações
+- [x] Escrever testes unitários e de integração para os endpoints da API (usando pytest)
+- [x] Escrever testes básicos para o pipeline de dados
+- [x] Testar a interface Streamlit simulando interações
 
 ### Feature 8.2 — Testes de Qualidade
-- [ ] Avaliar a precisão da recuperação do retriever
-- [ ] Analisar a latência de ponta a ponta (tempo de resposta do chat)
-- [ ] Avaliar o comportamento de proteção contra alucinações (perguntas fora do escopo)
+- [x] Avaliar a precisão da recuperação do retriever
+- [x] Analisar a latência de ponta a ponta (tempo de resposta do chat)
+- [x] Avaliar o comportamento de proteção contra alucinações (perguntas fora do escopo)
 
 ### Feature 8.3 — Ajustes e Refatoração
-- [ ] Corrigir eventuais bugs mapeados
-- [ ] Refatorar trechos de código visando legibilidade e eficiência
-- [ ] Limpar logs de depuração desnecessários
+- [x] Corrigir eventuais bugs mapeados
+- [x] Refatorar trechos de código visando legibilidade e eficiência
+- [x] Limpar logs de depuração desnecessários
 
 > **✅ Definition of Done (Epic 8)**:
 > - Cobertura de testes essenciais estabelecida e passando.

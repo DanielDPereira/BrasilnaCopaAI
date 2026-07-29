@@ -1,0 +1,31 @@
+FROM python:3.12-slim
+
+# Evita que o Python grave arquivos .pyc no disco e faça buffering de stdout/stderr
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /workspace
+
+# Instala dependências do sistema necessárias para compilação e curl para o healthcheck
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copia e instala as dependências do Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia o código fonte da aplicação e scripts
+COPY app/ /workspace/app/
+COPY scripts/ /workspace/scripts/
+COPY docker/ /workspace/docker/
+
+# Garante que a pasta data exista
+RUN mkdir -p /workspace/data
+
+# Expõe a porta padrão do FastAPI
+EXPOSE 8000
+
+# Executa o entrypoint de inicialização da API
+ENTRYPOINT ["python", "docker/entrypoint.py"]

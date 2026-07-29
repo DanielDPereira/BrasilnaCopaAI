@@ -1,0 +1,48 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: brasil-copa-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma-data:/workspace/data/db
+      - model-data:/workspace/data/models
+      - raw-data:/workspace/data/raw
+      - processed-data:/workspace/data/processed
+    env_file:
+      - .env
+    environment:
+      - CHROMA_DB_PATH=data/db
+      - BACKEND_HOST=0.0.0.0
+      - BACKEND_PORT=8000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: brasil-copa-frontend
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  chroma-data:
+  model-data:
+  raw-data:
+  processed-data:

@@ -80,11 +80,16 @@ Antes de disponibilizar o chatbot, é necessário coletar e organizar os dados n
 
 # 🔎 Fluxo de Consulta (RAG)
 
-Quando a pergunta chega ao backend, a busca semântica e a geração de resposta ocorrem da seguinte forma:
+Quando a pergunta chega ao backend, ela passa por uma etapa de **Query Expansion** (expansão de consultas) para assegurar o maior índice de cobertura (recall) semântica. O fluxo de orquestração detalhado do pipeline é ilustrado a seguir:
 
 ```text
-[Pergunta] ──> [Embedding da Pergunta] ──> [Busca Semântica] ──> [Recuperação Chunks] ──> [Prompt Contexto] ──> [Gemini] ──> [Resposta]
+                                              ┌───> [Busca Vetorial (Variação 1)] ──┐
+                                              ├───> [Busca Vetorial (Variação 2)] ──┼─> [Unificar & Desduplicar] ──> [Prompt Contexto] ──> [Gemini] ──> [Resposta]
+[Pergunta] ──> [Query Expansion via LLM] ────┼───> [Busca Vetorial (Variação 3)] ──┤
+                                              └───> [Busca Vetorial (Original)] ───┘
 ```
+
+Os embeddings de busca são gerados localmente utilizando um modelo ONNX em CPU (ou via chamadas ao Gemini, de acordo com as configurações do `.env`).
 
 ---
 
@@ -93,11 +98,12 @@ Quando a pergunta chega ao backend, a busca semântica e a geração de resposta
 ### FastAPI (Backend)
 Responsável por conter e aplicar as regras de negócio da aplicação. Suas obrigações incluem:
 - Receber e validar as requisições HTTP (pergunta do usuário).
-- Gerar o vetor da pergunta do usuário.
+- Executar a expansão de consultas em 3 perguntas alternativas para cobrir tópicos relacionados.
+- Converter as consultas em vetores de alta dimensionalidade (utilizando embeddings locais ONNX ou rotacionando chaves na API do Gemini).
 - Consultar a base vetorial local do ChromaDB.
-- Extrair os trechos de texto mais semelhantes.
+- Extrair, unificar e desduplicar os trechos de texto mais semelhantes.
 - Injetar os trechos de contexto dentro do prompt.
-- Fazer a chamada à API do Gemini e retornar o payload estruturado.
+- Fazer a chamada à API do Gemini e retornar o payload estruturado de resposta.
 
 ### Streamlit (Presentation Layer)
 - Renderizar a interface gráfica e o fluxo de mensagens estilo chat.
@@ -105,19 +111,26 @@ Responsável por conter e aplicar as regras de negócio da aplicação. Suas obr
 - Não possui lógica de IA, conexões com banco vetorial ou chaves de API carregadas.
 
 ### Pipeline de Ingestão
-Script utilitário executado sob demanda para atualizar a base vetorial. Faz a coleta ativa, processa e popula o ChromaDB.
+Script utilitário executado sob demanda para atualizar a base vetorial. Ele extrai de forma limpa os artigos da Wikipedia do Brasil de 1930 a 2026, fatiando os arquivos de maneira estruturada e populando a coleção no ChromaDB.
 
 ### Pipeline RAG
 Componente core desenvolvido em Python utilizando **LangChain** que orquestra:
-1. Retrieval (recuperação semântica).
-2. Augmentation (formatação e injeção do prompt).
-3. Generation (chamada e tratamento de resposta do Gemini).
+1. **Query Expansion** (Expansão dinâmica via LLM em `MultiQueryRAGRetriever`).
+2. **Retrieval** (Busca semântica avançada).
+3. **Augmentation** (Formatação e injeção do prompt de contexto).
+4. **Generation** (Chamada e tratamento de resposta do Gemini).
+
+### Docker & Docker Compose (Orquestração)
+* **Estrutura**: Separação física dos serviços de Frontend (Streamlit) e Backend (FastAPI) em containers Linux isolados.
+* **DNS Interno**: Comunicação direta entre containers pela rede privada do Compose (`BACKEND_URL=http://backend:8000`).
+* **Healthcheck**: O frontend Streamlit só inicializa após o backend FastAPI responder com sucesso (status `healthy` no endpoint `/health`).
+* **Inicialização Inteligente**: Script entrypoint em Python (`docker/entrypoint.py`) que realiza o download automático do modelo local ONNX e popula a base vetorial no primeiro boot caso as pastas de volume (`model-data` e `chroma-data`) estejam vazias.
 
 ---
 
 # 📦 Base de Conhecimento
 
-A base de dados de conhecimento é construída com foco no escopo da Copa do Mundo FIFA de 2026. A coleta abrange artigos como:
+A base de dados de conhecimento é construída com foco no escopo da Seleção Brasileira nas Copas do Mundo FIFA. A coleta abrange artigos como:
 - **Copa do Mundo FIFA de 2026** (Artigo Geral).
 - **Seleção Brasileira de Futebol** (História e Elenco).
 - Detalhes de eliminatórias, grupos da competição, estatísticas e comissões técnicas oficiais.
@@ -138,7 +151,7 @@ Para evitar alucinações e respostas incorretas, utilizamos busca semântica em
 ### Prompt de Instrução do Sistema (System Prompt)
 O modelo de linguagem recebe instruções rígidas de comportamento:
 - Responder **apenas** utilizando as informações fornecidas nos documentos de contexto.
-- Se o contexto não contiver informações suficientes, o modelo deve responder expressamente: *"Não possuo essa informação em minha base de dados sobre a Copa do Mundo 2026."*
+- Se o contexto não contiver informações suficientes, o modelo deve responder expressamente: *"Não possuo essa informação em minha base de dados sobre a Seleção Brasileira nas Copas do Mundo."*
 - Proibido inventar fatos ou utilizar conhecimentos externos que divirjam do contexto.
 - O idioma de resposta será exclusivamente português do Brasil.
 

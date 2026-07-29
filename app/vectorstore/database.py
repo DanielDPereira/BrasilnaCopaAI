@@ -177,13 +177,18 @@ class FallbackGeminiEmbeddings(Embeddings):
                     return self.embeddings.embed_documents(texts)
                 except Exception as e:
                     err_str = str(e)
+                    err_lower = err_str.lower()
                     last_error = e
-                    # Se for limite de cota/autorização e temos outras chaves, marca como esgotada e rotaciona
-                    if "RESOURCE_EXHAUSTED" in err_str or "429" in err_str or "403" in err_str:
-                        logger.warning(f"DEBUG: Catching rate limit error: {err_str}")
-                        is_daily = any(x in err_str.lower() for x in ["limit: 1000", "requestsperday", "perday"])
+                    
+                    is_auth_or_quota = any(x in err_lower for x in [
+                        "resource_exhausted", "429", "403", "401", "400", "api_key_invalid", "quota", "auth error", "invalid api key"
+                    ])
+                    if is_auth_or_quota:
+                        is_daily = any(x in err_lower for x in ["limit: 1000", "requestsperday", "perday"])
                         cooldown = 3600 if is_daily else 10
-                        self.key_manager.mark_exhausted(self.key_manager.current_key, duration=cooldown)
+                        current_k = self.key_manager.current_key
+                        if current_k:
+                            self.key_manager.mark_exhausted(current_k, duration=cooldown)
                         if self.key_manager.count > 1:
                             break
                         
@@ -238,11 +243,18 @@ class FallbackGeminiEmbeddings(Embeddings):
                     return self.embeddings.embed_query(text)
                 except Exception as e:
                     err_str = str(e)
+                    err_lower = err_str.lower()
                     last_error = e
-                    if "RESOURCE_EXHAUSTED" in err_str or "429" in err_str or "403" in err_str:
-                        is_daily = any(x in err_str.lower() for x in ["limit: 1000", "requestsperday", "perday"])
+                    
+                    is_auth_or_quota = any(x in err_lower for x in [
+                        "resource_exhausted", "429", "403", "401", "400", "api_key_invalid", "quota", "auth error", "invalid api key"
+                    ])
+                    if is_auth_or_quota:
+                        is_daily = any(x in err_lower for x in ["limit: 1000", "requestsperday", "perday"])
                         cooldown = 3600 if is_daily else 10
-                        self.key_manager.mark_exhausted(self.key_manager.current_key, duration=cooldown)
+                        current_k = self.key_manager.current_key
+                        if current_k:
+                            self.key_manager.mark_exhausted(current_k, duration=cooldown)
                         if self.key_manager.count > 1:
                             break
                         

@@ -59,10 +59,22 @@ class FallbackChatGemini(Runnable):
                     return self.llm.invoke(input, config)
                 except Exception as e:
                     err_str = str(e)
+                    err_lower = err_str.lower()
                     last_error = e
-                    # Se for erro de cota (429/RESOURCE_EXHAUSTED) ou acesso (403), rotacionamos chave imediatamente se tivermos outras
-                    if ("RESOURCE_EXHAUSTED" in err_str or "429" in err_str or "403" in err_str) and self.key_manager.count > 1:
-                        break
+                    
+                    # Trata erros de cota (429/RESOURCE_EXHAUSTED) ou autenticação/chave inválida (400/401/403/API_KEY_INVALID)
+                    is_auth_or_quota = any(x in err_lower for x in [
+                        "resource_exhausted", "429", "403", "401", "400", "api_key_invalid", "quota", "invalid api key"
+                    ])
+                    
+                    if is_auth_or_quota:
+                        is_daily = any(x in err_lower for x in ["limit: 1000", "requestsperday", "perday"])
+                        cooldown = 3600 if is_daily else 10
+                        current_k = self.key_manager.current_key
+                        if current_k:
+                            self.key_manager.mark_exhausted(current_k, duration=cooldown)
+                        if self.key_manager.count > 1:
+                            break
                         
                     local_retries -= 1
                     if local_retries > 0:
@@ -73,7 +85,7 @@ class FallbackChatGemini(Runnable):
                         time.sleep(backoff_delay)
                         backoff_delay *= 2.0
             
-            # Se estourou retentativas locais ou caiu no break de cota, tentamos a próxima chave
+            # Se estourou retentativas locais ou caiu no break de cota/autenticação, tentamos a próxima chave
             if self.key_manager.count > 1:
                 old_key_prefix = self.key_manager.current_key[:8] if self.key_manager.current_key else "None"
                 self.key_manager.rotate_key()
@@ -84,7 +96,6 @@ class FallbackChatGemini(Runnable):
                 )
                 self._init_llm()
             else:
-                # Se só temos 1 chave e falhou localmente, encerra
                 break
                 
             attempts += 1

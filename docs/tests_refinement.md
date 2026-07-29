@@ -37,9 +37,9 @@ As implementações foram estruturadas nas seguintes frentes:
 
 ## 🚀 Como executar os testes
 
-Você pode rodar toda a suíte de testes (agora com **28 testes ativos**) utilizando:
+Você pode rodar toda a suíte de testes (agora com **29 testes ativos**) utilizando:
 
 ```bash
-pytest -s
+.\.venv\Scripts\python.exe -m pytest -v -s
 ```
 O parâmetro `-s` permite visualizar os tempos de latência e as saídas das métricas impressas no terminal.

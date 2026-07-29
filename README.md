@@ -3,8 +3,10 @@
 > Um chatbot inteligente baseado em **Retrieval-Augmented Generation (RAG)** capaz de responder perguntas sobre a história e participação da **Seleção Brasileira nas Copas do Mundo FIFA** (geral de todas as edições), utilizando documentos da Wikipedia como base de conhecimento e o Google Gemini para geração de respostas contextualizadas.
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-em%20desenvolvimento-yellow" alt="Status">
-  <img src="https://img.shields.io/badge/Python-3.12-blue" alt="Python">
+  <img src="https://img.shields.io/badge/version-v1.0.0-blue" alt="Version">
+  <img src="https://img.shields.io/badge/status-conclu%C3%ADdo-brightgreen" alt="Status">
+  <img src="https://img.shields.io/badge/tests-29%20passed-brightgreen" alt="Tests">
+  <img src="https://img.shields.io/badge/Python-3.12%2B-blue" alt="Python">
   <img src="https://img.shields.io/badge/FastAPI-0.115%2B-009688" alt="FastAPI">
   <img src="https://img.shields.io/badge/Streamlit-1.x-FF4B4B" alt="Streamlit">
   <img src="https://img.shields.io/badge/LangChain-RAG-blueviolet" alt="LangChain">
@@ -197,7 +199,8 @@ Para aprofundar-se no projeto, consulte os guias disponíveis na pasta `docs/`:
 1. 🏗️ **[Arquitetura Detalhada](docs/architecture.md)**: Entenda os fluxos detalhados de ingestão de dados, busca vetorial e prompt engineering.
 2. 🐳 **[Execução com Docker](docs/docker.md)**: Detalhes sobre o empacotamento, volumes e comando docker compose.
 3. ⚙️ **[Guia de Desenvolvimento e Convenções](docs/development.md)**: Padrões de código, Conventional Commits, branches (Git Flow) e como rodar a suíte de testes.
-4. 📋 **[Planejamento, Roadmap e Backlog](docs/backlog.md)**: Acompanhe o roadmap das 8 fases do projeto, as listas de tarefas (Tasks) por épicos e as definições de pronto (DoD).
+4. 🧪 **[Testes e Refinamentos (Épico 8)](docs/tests_refinement.md)**: Detalhes das métricas de qualidade, suíte de 29 testes unitários/integrados e resiliência de chaves.
+5. 📋 **[Planejamento, Roadmap e Backlog](docs/backlog.md)**: Acompanhe o roadmap das 8 fases do projeto, as listas de tarefas (Tasks) por épicos e as definições de pronto (DoD).
 
 ---
 

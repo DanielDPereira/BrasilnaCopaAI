@@ -17,12 +17,38 @@ def test_document_chunker_basic():
     chunks = chunker.split_document(doc)
     
     assert len(chunks) > 1
+    prefix_len = len("[Contexto: Copa 2026]\n\n")
     for i, chunk in enumerate(chunks):
         assert chunk.metadata["source_title"] == "Copa 2026"
         assert chunk.metadata["chunk_index"] == i
         assert chunk.metadata["total_chunks"] == len(chunks)
         assert chunk.metadata["source"] == "test"
-        assert len(chunk.page_content) <= 50
+        assert len(chunk.page_content) <= 50 + prefix_len
+        assert chunk.page_content.startswith("[Contexto: Copa 2026]\n\n")
+
+def test_document_chunker_markdown():
+    doc = {
+        "title": "Pelé",
+        "source_url": "https://example.com/pele",
+        "cleaned_text": "# Pelé\nResumo sobre Pelé.\n\n## Carreira na Seleção\n=== Copa de 1958 ===\nEle marcou seis gols em 58.",
+        "metadata": {
+            "source": "test"
+        }
+    }
+    
+    chunker = DocumentChunker(chunk_size=100, chunk_overlap=10)
+    chunks = chunker.split_document(doc)
+    
+    assert len(chunks) > 0
+    # Verificamos se os chunks possuem o contexto correto com base em sua seção
+    first_chunk = chunks[0]
+    assert "Contexto: Pelé" in first_chunk.page_content
+    assert first_chunk.metadata["section_path"] == "Pelé"
+    
+    # O segundo chunk deve estar na seção "Carreira na Seleção"
+    second_chunk = chunks[1]
+    assert "Contexto: Pelé > Carreira na Seleção" in second_chunk.page_content
+    assert second_chunk.metadata["section_path"] == "Pelé > Carreira na Seleção"
 
 def test_document_chunker_empty():
     doc = {

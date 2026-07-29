@@ -16,10 +16,10 @@ A estrutura de integração foi implementada no pacote `app/rag/` nas seguintes 
 
 ### 1. Modelo de Linguagem Resiliente (`llm.py`)
 * Classe `FallbackChatGemini` que herda de `Runnable` do LangChain e atua como um wrapper do modelo `ChatGoogleGenerativeAI`.
-* **Hiperparâmetros configurados**:
-  * Modelo padrão: `gemini-2.5-flash` (selecionado devido ao excelente tempo de resposta e cotas de uso do plano gratuito).
-  * `temperature = 0.0` (para evitar alucinações e respostas inventadas).
-  * `top_p = 0.95`.
+* **Hiperparâmetros e Configuração**:
+  * Modelo padrão: `gemini-flash-latest` (selecionado por ser o alias estável para o modelo Flash da geração corrente do Gemini e evitar depreciações e NOT_FOUND 404).
+  * `temperature` padrão: `0.0` (dinâmico e personalizável via parâmetro na requisição `/chat`).
+  * `top_p` padrão: `0.95`.
 * **Rotação e Fallback**: Caso uma chamada falhe por estouro de cota de requisições por minuto ou limite diário da API (`RESOURCE_EXHAUSTED` / `429`), o wrapper automaticamente rotaciona a chave de API (usando `GeminiAPIKeyManager`) e re-inicializa o modelo sem derrubar a cadeia.
 * **Retentativas de Rede**: Em caso de falhas de rede temporárias (timeouts, erros de conexão), são feitas até 3 retentativas locais na chave atual usando espaçamento (backoff) de tempo exponencial.
 
@@ -35,7 +35,7 @@ A estrutura de integração foi implementada no pacote `app/rag/` nas seguintes 
 
 ## 🧠 Por que foi feito assim
 
-1. **Seleção do Modelo `gemini-2.5-flash`**: Identificamos que o modelo `gemini-2.5-flash` está disponível e possui cotas de execução estáveis no ambiente de sandbox, garantindo a execução sem erros de "model not found".
+1. **Seleção do Modelo `gemini-flash-latest`**: Identificamos que o alias `gemini-flash-latest` garante que a aplicação sempre utilizará o modelo flash estável da geração corrente, evitando erros de obsolescência e 404 NOT_FOUND nas chamadas.
 2. **LCEL de Ponta a Ponta**: A cadeia RAG foi estendida usando a sintaxe declarativa padrão do LangChain, o que permite o fluxo de dados unificado de strings para mensagens de chat, e finalmente para o parseador de saída (`StrOutputParser`).
 
 ---

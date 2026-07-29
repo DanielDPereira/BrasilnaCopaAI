@@ -14,9 +14,11 @@ Nesta etapa, implementamos a orquestração do fluxo RAG usando **LangChain**. O
 
 A lógica do pipeline foi estruturada sob o pacote `app/rag/` nas seguintes partes:
 
-### 1. Componente de Recuperação (`retriever.py`)
-* Função `get_retriever(k)` que obtém a base vetorial do ChromaDB (Epic 3) e a expõe como um `VectorStoreRetriever` do LangChain.
-* Configurado para busca do tipo `"similarity"` com Top-K padrão `k=4`.
+### 1. Componente de Recuperação Multi-Query (`retriever.py`)
+* Classe `MultiQueryRAGRetriever` que estende `BaseRetriever` do LangChain e implementa a técnica de **Query Expansion** (expansão de consultas).
+* **Expansão Dinâmica**: Diante de uma pergunta do usuário, o retriever invoca o LLM para gerar exatamente 3 termos de busca ou perguntas curtas alternativas em português que cobrem tópicos relacionados.
+* **Busca e Desduplicação**: É feita a busca semântica no ChromaDB para a pergunta original e para cada uma das 3 variações geradas. Todos os documentos recuperados são agregados, desduplicados e o resultado final é retornado, elevando expressivamente o recall para perguntas amplas.
+* **Resiliência**: Possui fallback seguro para usar apenas a query original em caso de falha ou quota excedida no LLM durante a etapa de expansão.
 
 ### 2. Instruções do Sistema e Engenharia de Prompt (`prompts.py`)
 * **System Prompt Restritivo**: Definimos diretrizes rígidas instruindo o assistente a responder *única e exclusivamente* com base no contexto fornecido.

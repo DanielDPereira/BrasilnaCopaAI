@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional
 import wikipediaapi
 
@@ -31,6 +31,43 @@ class WikipediaCollector:
         sanitized = re.sub(r'[\s-]+', '_', sanitized)
         return sanitized.lower().strip()
 
+    def _build_markdown_text(self, page) -> str:
+        """
+        Gera uma string formatada em Markdown preservando a hierarquia de cabeçalhos
+        a partir das seções estruturadas da página da Wikipedia.
+        """
+        blacklisted_sections = [
+            "referências",
+            "ligações externas",
+            "ver também",
+            "notas",
+            "bibliografia",
+            "leitura adicional",
+            "outros projetos"
+        ]
+
+        def build_sections_markdown(sections, level=2) -> str:
+            md = []
+            for section in sections:
+                if section.title.lower() in blacklisted_sections:
+                    continue
+                md.append(f"{'#' * level} {section.title}")
+                if section.text.strip():
+                    md.append(section.text.strip())
+                if section.sections:
+                    md.append(build_sections_markdown(section.sections, level + 1))
+            return "\n\n".join(md)
+
+        content_parts = []
+        content_parts.append(f"# {page.title}")
+        if page.summary.strip():
+            content_parts.append(page.summary.strip())
+            
+        if page.sections:
+            content_parts.append(build_sections_markdown(page.sections))
+            
+        return "\n\n".join(content_parts)
+
     def fetch_page(self, page_title: str, force_update: bool = False) -> Optional[str]:
         """
         Coleta um artigo da Wikipedia pelo titulo e salva em JSON na pasta de dados brutos.
@@ -58,13 +95,16 @@ class WikipediaCollector:
                 print(f"❌ Erro: Artigo '{page_title}' nao existe na Wikipedia em portugues.")
                 return None
             
+            # Constrói o texto formatado em Markdown preservando as seções
+            markdown_text = self._build_markdown_text(page)
+            
             # Estrutura os dados brutos obtidos
             raw_data: Dict[str, Any] = {
                 "title": page.title,
                 "url": page.fullurl,
-                "text": page.text,
+                "text": markdown_text,
                 "summary": page.summary,
-                "fetched_at": datetime.utcnow().isoformat()
+                "fetched_at": datetime.now(timezone.utc).isoformat()
             }
             
             # Salva o arquivo JSON

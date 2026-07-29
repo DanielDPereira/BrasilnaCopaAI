@@ -77,7 +77,7 @@ def test_fallback_embeddings_exhaustion(mock_google_embeddings):
     
     mock_google_embeddings.return_value = mock_instance
     
-    fallback_emb = FallbackGeminiEmbeddings(key_manager=manager)
+    fallback_emb = FallbackGeminiEmbeddings(key_manager=manager, model_name="models/gemini-embedding-001")
     
     # Executa a chamada e garante que lança o erro final quando esgotadas as chaves
     with pytest.raises(Exception) as excinfo:

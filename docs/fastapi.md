@@ -17,13 +17,20 @@ A lógica do servidor API foi concentrada no arquivo [main.py](../app/main.py) e
 ### 1. Esquemas de Dados Pydantic
 * **`ChatRequest`**:
   * `message: str` (Obrigatório, tamanho mínimo de 1 caractere).
-  * `k: int` (Opcional, com padrão `4`, limitado entre `1` e `10` via validações do Pydantic).
+  * `k: int` (Opcional, com padrão `4`, limitado entre `1` e `12` via validações do Pydantic).
+  * `custom_system_prompt: str | None` (Opcional, permite injetar instruções alternativas para experimentar e brincar com o RAG).
+  * `temperature: float` (Opcional, com padrão `0.0`, limitado entre `0.0` e `2.0` para controle de criatividade da LLM).
 * **`ChatSource`**:
   * `title: str` (Título do artigo retornado da base de conhecimento).
   * `url: str` (Link direto para o artigo correspondente na Wikipedia).
+* **`ContextChunk`**:
+  * `title: str` (Título do artigo do chunk).
+  * `content: str` (Conteúdo do texto cru recuperado no ChromaDB).
+  * `url: str` (Link direto na Wikipedia correspondente ao chunk).
 * **`ChatResponse`**:
   * `response: str` (A resposta final gerada pelo Gemini).
   * `sources: List[ChatSource]` (Coleção das fontes exclusivas e sem repetições que serviram como embasamento).
+  * `context_chunks: List[ContextChunk]` (A lista com todos os fragmentos textuais originais injetados no prompt do Gemini, permitindo auditorias e visualizações).
 
 ### 2. Endpoints HTTP expostos
 * **`GET /health`**:
@@ -55,10 +62,14 @@ pytest tests/test_api.py
 * Valida o monitoramento em `/health`, as respostas corretas e checagem de fontes duplicadas em `/chat`, validação de erros Pydantic (mensagens vazias) e tratamento do erro de limite de quota (503).
 
 ### 2. Rodar a API localmente
+Certifique-se de que o ambiente virtual esteja ativo ou execute os comandos utilizando os binários da pasta `.venv` (para evitar erros de pacotes não encontrados):
+
 ```bash
-python -m app.main
-# ou
-uvicorn app.main:app --reload
+# Utilizando o executável do ambiente virtual (Recomendado)
+.venv\Scripts\python -m app.main
+
+# Ou executando o uvicorn diretamente do ambiente virtual
+.venv\Scripts\uvicorn app.main:app --reload --reload-dir app
 ```
 A API iniciará no endereço `http://127.0.0.1:8000`. Você pode testar os endpoints de duas maneiras:
 * **Interativo (Swagger UI)**: Acesse [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) e use a aba "Try it out" na rota `/chat`.

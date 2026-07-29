@@ -77,6 +77,31 @@ def test_rag_pipeline_ask_mock(mock_get_llm, mock_get_retriever):
     
     assert response == "O Brasil possui 5 títulos da Copa do Mundo."
 
+@patch("app.rag.pipeline.get_retriever")
+@patch("app.rag.pipeline.get_llm")
+def test_rag_pipeline_reformulate_question(mock_get_llm, mock_get_retriever):
+    # Mock do LLM para retornar a pergunta reformulada
+    from langchain_core.messages import AIMessage
+    mock_llm = MagicMock()
+    mock_llm.invoke.return_value = AIMessage(content="Quantas Copas do Mundo Pelé venceu?")
+    mock_get_llm.return_value = mock_llm
+    
+    pipeline = RAGPipeline(k=1)
+    
+    history = [
+        {"role": "user", "content": "Quem foi Pelé?"},
+        {"role": "assistant", "content": "Pelé foi o Rei do Futebol."}
+    ]
+    
+    reformulated = pipeline.reformulate_question("Quantas Copas ele venceu?", history)
+    
+    assert reformulated == "Quantas Copas do Mundo Pelé venceu?"
+    # Garante que o LLM foi chamado com o prompt contendo o histórico e a pergunta
+    call_arg = mock_llm.invoke.call_args[0][0]
+    assert "Quem foi Pelé?" in call_arg
+    assert "Pelé foi o Rei do Futebol." in call_arg
+    assert "Quantas Copas ele venceu?" in call_arg
+
 @pytest.mark.integration
 def test_rag_pipeline_real_db_search():
     # Teste de integração real contra o banco ChromaDB local
@@ -87,7 +112,7 @@ def test_rag_pipeline_real_db_search():
         query = "cidades sedes da Copa do Mundo de 2026"
         docs = pipeline.retrieve_context(query)
         
-        assert len(docs) <= 2
+        assert len(docs) <= 6
         if docs:
             # Garante que recuperou algum conteúdo textual
             assert len(docs[0].page_content) > 0

@@ -1,6 +1,6 @@
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Dict, Any
 from app.ingestion.collector import WikipediaCollector
 from app.ingestion.cleaner import TextCleaner
@@ -65,7 +65,7 @@ class WikipediaProcessor:
                 "url": url,
                 "word_count": word_count,
                 "char_count": char_count,
-                "processed_at": datetime.utcnow().isoformat()
+                "processed_at": datetime.now(timezone.utc).isoformat()
             }
         }
         

@@ -50,7 +50,7 @@ O desenvolvimento é conduzido por meio de tarefas organizadas em Épicos e Feat
 Responsável pela preparação do ambiente de desenvolvimento e organização inicial do projeto.
 
 ### Feature 1.1 — Configuração do Repositório
-- [ ] Criar repositório no GitHub
+- [x] Criar repositório no GitHub
 - [x] Configurar licença MIT
 - [x] Adicionar README inicial
 - [x] Configurar `.gitignore`
@@ -230,19 +230,19 @@ Responsável por criar a experiência visual de chat para o usuário.
 Responsável por certificar a estabilidade e qualidade geral do projeto.
 
 ### Feature 8.1 — Testes Funcionais
-- [ ] Escrever testes unitários e de integração para os endpoints da API (usando pytest)
-- [ ] Escrever testes básicos para o pipeline de dados
-- [ ] Testar a interface Streamlit simulando interações
+- [x] Escrever testes unitários e de integração para os endpoints da API (usando pytest)
+- [x] Escrever testes básicos para o pipeline de dados
+- [x] Testar a interface Streamlit simulando interações
 
 ### Feature 8.2 — Testes de Qualidade
-- [ ] Avaliar a precisão da recuperação do retriever
-- [ ] Analisar a latência de ponta a ponta (tempo de resposta do chat)
-- [ ] Avaliar o comportamento de proteção contra alucinações (perguntas fora do escopo)
+- [x] Avaliar a precisão da recuperação do retriever
+- [x] Analisar a latência de ponta a ponta (tempo de resposta do chat)
+- [x] Avaliar o comportamento de proteção contra alucinações (perguntas fora do escopo)
 
 ### Feature 8.3 — Ajustes e Refatoração
-- [ ] Corrigir eventuais bugs mapeados
-- [ ] Refatorar trechos de código visando legibilidade e eficiência
-- [ ] Limpar logs de depuração desnecessários
+- [x] Corrigir eventuais bugs mapeados
+- [x] Refatorar trechos de código visando legibilidade e eficiência
+- [x] Limpar logs de depuração desnecessários
 
 > **✅ Definition of Done (Epic 8)**:
 > - Cobertura de testes essenciais estabelecida e passando.

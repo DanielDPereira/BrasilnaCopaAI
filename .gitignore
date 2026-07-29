@@ -220,3 +220,6 @@ __marimo__/
 # Banco Vetorial local (ChromaDB)
 data/db/
 
+# Modelos locais ONNX para Embeddings
+data/models/
+

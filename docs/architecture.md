@@ -120,6 +120,12 @@ Componente core desenvolvido em Python utilizando **LangChain** que orquestra:
 3. **Augmentation** (Formatação e injeção do prompt de contexto).
 4. **Generation** (Chamada e tratamento de resposta do Gemini).
 
+### Docker & Docker Compose (Orquestração)
+* **Estrutura**: Separação física dos serviços de Frontend (Streamlit) e Backend (FastAPI) em containers Linux isolados.
+* **DNS Interno**: Comunicação direta entre containers pela rede privada do Compose (`BACKEND_URL=http://backend:8000`).
+* **Healthcheck**: O frontend Streamlit só inicializa após o backend FastAPI responder com sucesso (status `healthy` no endpoint `/health`).
+* **Inicialização Inteligente**: Script entrypoint em Python (`docker/entrypoint.py`) que realiza o download automático do modelo local ONNX e popula a base vetorial no primeiro boot caso as pastas de volume (`model-data` e `chroma-data`) estejam vazias.
+
 ---
 
 # 📦 Base de Conhecimento

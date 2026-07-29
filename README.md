@@ -80,17 +80,49 @@ BrasilnaCopaAI/
 
 ## 🚀 Como Executar o Projeto
 
-### Pré-requisitos
-* Python 3.12 ou superior instalado.
-* Chave(s) de API do Google Gemini (obtida no Google AI Studio), ou use o modelo local (ONNX).
+Você pode executar o projeto de duas maneiras: utilizando o **Docker Compose** (método recomendado, automatizado e multiplataforma) ou **manualmente** (configurando o ambiente virtual Python local).
 
-### 1. Clonar o Repositório e Acessar a Pasta
+---
+
+### Método A: Via Docker Compose (Recomendado 🐳)
+
+Este é o método mais simples e rápido. O Docker se encarrega de instalar todas as dependências, baixar o modelo local de embeddings (se configurado) e rodar o pipeline de ingestão e indexação do ChromaDB de forma **100% automatizada** no primeiro boot.
+
+#### Pré-requisitos:
+* **Docker** e **Docker Compose** instalados na máquina.
+* Chave de API do Google Gemini.
+
+#### 1. Criar o arquivo `.env`
+Crie um arquivo `.env` na raiz do projeto com as chaves necessárias (baseando-se no `.env.example`):
+```env
+GEMINI_API_KEY=sua_chave_aqui
+USE_LOCAL_EMBEDDINGS=true
+```
+
+#### 2. Executar o Compose
+Na raiz do repositório, execute:
+```bash
+docker compose up --build
+```
+Aguarde a inicialização. O frontend Streamlit estará disponível em **[http://localhost:8501](http://localhost:8501)** e o backend FastAPI Swagger em **[http://localhost:8000/docs](http://localhost:8000/docs)**.
+
+Para mais detalhes sobre comandos e persistência de dados, consulte o [Guia de Execução com Docker](docs/docker.md).
+
+---
+
+### Método B: Execução Manual / Local 🐍
+
+#### Pré-requisitos:
+* **Python 3.12** ou superior instalado localmente.
+* Chave de API do Google Gemini.
+
+#### 1. Clonar o Repositório e Acessar a Pasta
 ```bash
 git clone https://github.com/DanielDPereira/BrasilnaCopaAI.git
 cd BrasilnaCopaAI
 ```
 
-### 2. Configurar o Ambiente Virtual
+#### 2. Configurar o Ambiente Virtual
 **No Windows:**
 ```powershell
 python -m venv .venv
@@ -102,12 +134,12 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-### 3. Instalar Dependências
+#### 3. Instalar Dependências
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configurar Variáveis de Ambiente e Modelo de Embeddings
+#### 4. Configurar Variáveis de Ambiente e Modelo de Embeddings
 Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
 ```env
 # Chave da API do Google Gemini
@@ -123,14 +155,14 @@ USE_LOCAL_EMBEDDINGS=true
 CHROMA_DB_PATH=data/db
 ```
 
-#### Se optar por utilizar Embeddings Locais (`USE_LOCAL_EMBEDDINGS=true`):
+##### Se optar por utilizar Embeddings Locais (`USE_LOCAL_EMBEDDINGS=true`):
 Para rodar sem depender das quotas de API do Gemini para embeddings, você deve baixar o modelo local executando:
 ```bash
 python scripts/download_local_model.py
 ```
 Isso baixará automaticamente os arquivos `model.onnx` e `tokenizer.json` do Hugging Face para a pasta `data/models/`.
 
-### 5. Ingestão e Indexação da Base de Conhecimento (Carga Inicial)
+#### 5. Ingestão e Indexação da Base de Conhecimento (Carga Inicial)
 Para que o RAG funcione, você precisa coletar e popular o banco de dados vetorial local:
 
 1. **Executar a Coleta e Limpeza (Wikipedia):**
@@ -142,14 +174,14 @@ Para que o RAG funcione, você precisa coletar e popular o banco de dados vetori
    python -m app.vectorstore.populate
    ```
 
-### 6. Executar o Backend (FastAPI)
+#### 6. Executar o Backend (FastAPI)
 ```bash
 uvicorn app.main:app --reload --reload-dir app
 ```
 * O backend rodará em `http://localhost:8000`.
 * Acesse a documentação Swagger interativa em `http://localhost:8000/docs`.
 
-### 7. Executar o Frontend (Streamlit)
+#### 7. Executar o Frontend (Streamlit)
 Em um novo terminal com o ambiente virtual ativado:
 ```bash
 streamlit run streamlit/app.py
@@ -163,8 +195,9 @@ A interface do chat abrirá automaticamente no seu navegador padrão (em `http:/
 Para aprofundar-se no projeto, consulte os guias disponíveis na pasta `docs/`:
 
 1. 🏗️ **[Arquitetura Detalhada](docs/architecture.md)**: Entenda os fluxos detalhados de ingestão de dados, busca vetorial e prompt engineering.
-2. ⚙️ **[Guia de Desenvolvimento e Convenções](docs/development.md)**: Padrões de código, Conventional Commits, branches (Git Flow) e como rodar a suíte de testes.
-3. 📋 **[Planejamento, Roadmap e Backlog](docs/backlog.md)**: Acompanhe o roadmap das 8 fases do projeto, as listas de tarefas (Tasks) por épicos e as definições de pronto (DoD).
+2. 🐳 **[Execução com Docker](docs/docker.md)**: Detalhes sobre o empacotamento, volumes e comando docker compose.
+3. ⚙️ **[Guia de Desenvolvimento e Convenções](docs/development.md)**: Padrões de código, Conventional Commits, branches (Git Flow) e como rodar a suíte de testes.
+4. 📋 **[Planejamento, Roadmap e Backlog](docs/backlog.md)**: Acompanhe o roadmap das 8 fases do projeto, as listas de tarefas (Tasks) por épicos e as definições de pronto (DoD).
 
 ---
 

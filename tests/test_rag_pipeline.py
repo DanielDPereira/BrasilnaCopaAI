@@ -143,4 +143,7 @@ def test_rag_pipeline_real_ask():
         assert len(response) > 0
         assert "Não possuo essa informação" not in response  # Deve encontrar pois está no banco!
     except Exception as e:
-        pytest.fail(f"Falha na integração real com Gemini: {str(e)}")
+        if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+            pytest.skip(f"Teste de integração real ignorado devido a limite temporário de cota da API: {e}")
+        else:
+            pytest.fail(f"Falha na integração real com Gemini: {str(e)}")

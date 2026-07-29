@@ -82,7 +82,7 @@ BrasilnaCopaAI/
 
 ### Pré-requisitos
 * Python 3.12 ou superior instalado.
-* Chave de API do Google Gemini (obtida no Google AI Studio).
+* Chave(s) de API do Google Gemini (obtida no Google AI Studio), ou use o modelo local (ONNX).
 
 ### 1. Clonar o Repositório e Acessar a Pasta
 ```bash
@@ -107,25 +107,54 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Configurar Variáveis de Ambiente
-Crie um arquivo `.env` na raiz do projeto contendo sua chave do Gemini:
+### 4. Configurar Variáveis de Ambiente e Modelo de Embeddings
+Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
 ```env
+# Chave da API do Google Gemini
 GEMINI_API_KEY=sua_chave_aqui
+
+# (Opcional) Múltiplas chaves separadas por vírgula para tolerância a falhas
+GEMINI_API_KEYS=chave_1,chave_2,chave_3
+
+# Configuração para rodar offline / economizar cota da API (true/false)
+USE_LOCAL_EMBEDDINGS=true
+
+# Caminho do banco vetorial
+CHROMA_DB_PATH=data/db
 ```
 
-### 5. Executar o Backend (FastAPI)
+#### Se optar por utilizar Embeddings Locais (`USE_LOCAL_EMBEDDINGS=true`):
+Para rodar sem depender das quotas de API do Gemini para embeddings, você deve baixar o modelo local executando:
+```bash
+python scripts/download_local_model.py
+```
+Isso baixará automaticamente os arquivos `model.onnx` e `tokenizer.json` do Hugging Face para a pasta `data/models/`.
+
+### 5. Ingestão e Indexação da Base de Conhecimento (Carga Inicial)
+Para que o RAG funcione, você precisa coletar e popular o banco de dados vetorial local:
+
+1. **Executar a Coleta e Limpeza (Wikipedia):**
+   ```bash
+   python -m app.ingestion.run
+   ```
+2. **Executar a Carga no Banco Vetorial (ChromaDB):**
+   ```bash
+   python -m app.vectorstore.populate
+   ```
+
+### 6. Executar o Backend (FastAPI)
 ```bash
 uvicorn app.main:app --reload --reload-dir app
 ```
 * O backend rodará em `http://localhost:8000`.
 * Acesse a documentação Swagger interativa em `http://localhost:8000/docs`.
 
-### 6. Executar o Frontend (Streamlit)
+### 7. Executar o Frontend (Streamlit)
 Em um novo terminal com o ambiente virtual ativado:
 ```bash
 streamlit run streamlit/app.py
 ```
-A interface do chat abrirá automaticamente no seu navegador.
+A interface do chat abrirá automaticamente no seu navegador padrão (em `http://localhost:8501`).
 
 ---
 

@@ -304,7 +304,7 @@ class LocalONNXEmbeddings(Embeddings):
         if not os.path.exists(self.model_path) or not os.path.exists(self.tokenizer_path):
             raise FileNotFoundError(
                 "Modelo local ONNX paraphrase-multilingual-MiniLM-L12-v2 não encontrado. "
-                "Execute o script de download em 'scratch/download_local_model.py' primeiro."
+                "Execute o script de download em 'scripts/download_local_model.py' primeiro."
             )
             
         self.tokenizer = Tokenizer.from_file(self.tokenizer_path)

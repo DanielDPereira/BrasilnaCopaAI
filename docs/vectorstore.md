@@ -23,7 +23,11 @@ Implementado através da classe `DocumentChunker` utilizando o `RecursiveCharact
 ### 2. Modelo de Embeddings e Rotação de Chaves (`database.py`)
 * **Modelos Suportados**:
   * **Remoto (Gemini API)**: Usa `models/gemini-embedding-2` (3072 dimensões) com fallback automático para `models/gemini-embedding-001`.
-  * **Local (ONNX Runtime)**: Usa o modelo **`paraphrase-multilingual-MiniLM-L12-v2`** em formato ONNX (384 dimensões), ativado por `USE_LOCAL_EMBEDDINGS=true` no arquivo `.env`. Ideal para testes rápidos, execuções offline e contorno de quotas de API.
+  * **Local (ONNX Runtime)**: Usa o modelo **`paraphrase-multilingual-MiniLM-L12-v2`** em formato ONNX (384 dimensões), ativado por `USE_LOCAL_EMBEDDINGS=true` no arquivo `.env`. Ideal para testes rápidos, execuções offline e contorno de quotas de API. Para preparar o modelo local antes de seu primeiro uso, execute o utilitário:
+    ```bash
+    python scripts/download_local_model.py
+    ```
+    Este script baixará automaticamente os arquivos `model.onnx` e `tokenizer.json` a partir do repositório Hugging Face para o caminho local `data/models/paraphrase-multilingual-MiniLM-L12-v2/`.
 * **Gerenciador de Chaves (`GeminiAPIKeyManager`)**: Permite o carregamento de múltiplas chaves de API a partir da variável de ambiente `GEMINI_API_KEYS` (lista separada por vírgula) ou fallback automático para a chave tradicional `GEMINI_API_KEY`.
 * **Resiliência e Rotação**: Criamos a classe wrapper `FallbackGeminiEmbeddings` que encapsula o cliente de embeddings e intercepta erros de cota ou limites de taxa (`429 RESOURCE_EXHAUSTED`). Caso uma chave falhe, ela é rotacionada automaticamente para a próxima chave configurada na lista.
 * **Retentativas locais com Backoff**: Para suportar falhas temporárias de rede (ex: `WinError 10060`), implementamos uma lógica de retentativas locais (até 3 tentativas) com tempo de espera exponencial crescente (2s, 4s, 8s) antes de desistir ou rotacionar a chave.

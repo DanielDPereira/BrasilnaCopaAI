@@ -13,6 +13,10 @@
   <img src="https://img.shields.io/badge/license-MIT-green" alt="License">
 </p>
 
+<p align="center">
+  <img src="docs/assets/app_screenshot.png" alt="Demonstração do BrasilnaCopaAI" width="100%" style="border-radius: 8px;">
+</p>
+
 ---
 
 ## 📖 Sobre o Projeto
